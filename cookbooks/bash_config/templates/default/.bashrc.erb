@@ -1,0 +1,50 @@
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines in the history.
+HISTCONTROL=ignoredups:ignorespace
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=250000
+HISTFILESIZE=750000
+
+# check the window size after each command and, if necessary, update the values
+# of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# enable programmable completion features
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  source /etc/bash_completion
+fi
+
+# export correct VIMRUNTIME depending on version
+if [ -d /usr/share/vim/vim73 ]; then
+  export VIMRUNTIME=/usr/share/vim/vim73
+elif [ -d /usr/share/vim/vim74 ]; then
+  export VIMRUNTIME=/usr/share/vim/vim74
+elif [ -d /usr/share/vim/vim91 ]; then
+  export VIMRUNTIME=/usr/share/vim/vim91
+fi
+export EDITOR=vim
+
+# enable reverse history search / enable XON/XOFF flow control
+stty -ixon
+
+# Setup GOPATH and GOBIN if go is detected
+if [ -n "$(which go)" ]; then
+  export GOPATH=$HOME/projects/go
+  export GOBIN=$GOPATH/bin
+  export PATH="$PATH:$GOBIN:$GOPATH"
+fi
+
+# Load external helpers
+<% node['bash']['bashrc']['extra_sources'].each_pair do |description, sourceable_path| %>
+# <%= description %>
+[ -e <%= sourceable_path %> ] && source <%= sourceable_path %>
+<% end %>
