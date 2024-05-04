@@ -28,6 +28,7 @@ run_list(
   'config::tmux',
   'openssh',
   'chrome',
+  'config::mime_applications',
   'simple_packages::nautilus-dropbox',
   'liquidprompt',
 )
