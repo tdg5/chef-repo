@@ -12,7 +12,9 @@ username = 'tdg5'
 group = username
 
 default['bash']['bashrc']['extra_sources'] = {
-  'Extra, env dependent aliases' => "~/.bash/extra_aliases",
+  'Standard bash aliases' => '~/.bash_aliases',
+  'SSH Agent' => '~/.sshagentrc',
+  'Extra, env dependent aliases' => '~/.bash/extra_aliases',
 }
 
 default["user"] = {
