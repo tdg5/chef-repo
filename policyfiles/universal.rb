@@ -6,13 +6,14 @@ cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
-cookbook 'htop', path: '../cookbooks/htop'
+cookbook 'simple_packages', path: '../cookbooks/simple_packages'
 cookbook 'vim', '~> 2.1.20', :supermarket
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
 run_list(
   'apt',
-  'htop',
+  'simple_packages::htop',
+  'simple_packages::tmux',
   'bash_config',
   'config::git',
   'config::sshagent',
