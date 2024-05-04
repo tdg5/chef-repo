@@ -28,4 +28,9 @@ run_list(
   'openssh',
   'chrome',
   'simple_packages::nautilus-dropbox',
+  'liquidprompt',
 )
+
+default['bash']['bashrc']['extra_sources']['extra, env dependent aliases'] = '~/.bash/extra_aliases'
+default['bash']['bashrc']['extra_sources']['ssh agent'] = '~/.sshagentrc'
+default['bash']['bashrc']['extra_sources']['standard bash aliases'] = '~/.bash_aliases'
