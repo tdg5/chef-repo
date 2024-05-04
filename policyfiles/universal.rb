@@ -15,4 +15,5 @@ run_list(
   'config::git',
   'config::sshagent',
   'vim',
+  'config::vim',
 )
