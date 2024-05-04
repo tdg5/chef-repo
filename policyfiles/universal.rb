@@ -4,6 +4,7 @@ default_source :supermarket
 
 cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
+cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'openssh',  '~> 2.11.11', :supermarket
@@ -25,4 +26,5 @@ run_list(
   'config::vim',
   'config::tmux',
   'openssh',
+  'chrome',
 )
