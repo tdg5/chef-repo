@@ -11,5 +11,6 @@ depends 'apt'
 recipe 'simple_packages', 'Noop'
 recipe 'simple_packages::htop', 'Installs htop package'
 recipe 'simple_packages::tmux', 'Installs tmux package'
+recipe 'simple_packages::xsel', 'Installs xsel package'
 
 %w[ debian ubuntu ].each { |os| supports os }

@@ -14,6 +14,7 @@ run_list(
   'apt',
   'simple_packages::htop',
   'simple_packages::tmux',
+  'simple_packages::xsel',
   'bash_config',
   'config::git',
   'config::sshagent',
