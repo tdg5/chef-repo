@@ -19,4 +19,5 @@ run_list(
   'vim',
   'vim_plugins',
   'config::vim',
+  'config::tmux',
 )
