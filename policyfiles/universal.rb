@@ -7,6 +7,7 @@ cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
+cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'openssh',  '~> 2.11.11', :supermarket
 cookbook 'simple_packages', path: '../cookbooks/simple_packages'
 cookbook 'vim', '~> 2.1.20', :supermarket
@@ -32,5 +33,6 @@ run_list(
 )
 
 default['bash']['bashrc']['extra_sources']['extra, env dependent aliases'] = '~/.bash/extra_aliases'
+default['bash']['bashrc']['extra_sources']['liquidprompt'] = '/opt/liquidprompt/liquidprompt'
 default['bash']['bashrc']['extra_sources']['ssh agent'] = '~/.sshagentrc'
 default['bash']['bashrc']['extra_sources']['standard bash aliases'] = '~/.bash_aliases'
