@@ -27,4 +27,5 @@ run_list(
   'config::tmux',
   'openssh',
   'chrome',
+  'simple_packages::nautilus-dropbox',
 )
