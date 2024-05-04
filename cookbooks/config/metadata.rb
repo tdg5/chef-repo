@@ -8,5 +8,6 @@ version           '0.0.1'
 
 recipe 'config', 'noop'
 recipe 'config:git', 'Installs user git config'
+recipe 'config:sshagent', 'Installs sshagent automatic ssh key loader script'
 
 %w[ debian ubuntu ].each { |os| supports os }

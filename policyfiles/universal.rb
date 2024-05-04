@@ -13,5 +13,6 @@ run_list(
   'htop',
   'bash_config',
   'config::git',
+  'config::sshagent',
   'vim',
 )
