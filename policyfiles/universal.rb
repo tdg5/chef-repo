@@ -15,8 +15,10 @@ cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
 run_list(
   'apt',
+  'simple_packages::curl',
   'simple_packages::htop',
   'simple_packages::tmux',
+  'simple_packages::tree',
   'simple_packages::wmctrl',
   'simple_packages::xsel',
   'bash_config',
