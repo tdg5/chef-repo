@@ -6,6 +6,7 @@ cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
+cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nodejs', '~> 10.1.18', :supermarket
@@ -38,6 +39,7 @@ run_list(
   'liquidprompt',
   'nodejs',
   'nodejs::npm',
+  'docker-service',
 )
 
 default['bash']['bashrc']['extra_sources']['extra, env dependent aliases'] = '~/.bash/extra_aliases'
