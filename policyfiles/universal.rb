@@ -22,6 +22,7 @@ run_list(
   'simple_packages::tree',
   'simple_packages::wmctrl',
   'simple_packages::xsel',
+  'simple_packages::gimp',
   'bash_config',
   'config::git',
   'config::sshagent',
