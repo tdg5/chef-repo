@@ -11,20 +11,20 @@ cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nodejs', '~> 10.1.18', :supermarket
 cookbook 'openssh',  '~> 2.11.11', :supermarket
-cookbook 'simple_packages', path: '../cookbooks/simple_packages'
+cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'vim', '~> 2.1.20', :supermarket
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
 run_list(
   'apt',
-  'simple_packages::curl',
-  'simple_packages::htop',
-  'simple_packages::tmux',
-  'simple_packages::tree',
-  'simple_packages::wmctrl',
-  'simple_packages::xsel',
-  'simple_packages::gimp',
-  'simple_packages::jhead',
+  'simple-packages::curl',
+  'simple-packages::htop',
+  'simple-packages::tmux',
+  'simple-packages::tree',
+  'simple-packages::wmctrl',
+  'simple-packages::xsel',
+  'simple-packages::gimp',
+  'simple-packages::jhead',
   'bash_config',
   'config::git',
   'config::sshagent',
@@ -35,7 +35,7 @@ run_list(
   'openssh',
   'chrome',
   'config::mime_applications',
-  'simple_packages::nautilus-dropbox',
+  'simple-packages::nautilus-dropbox',
   'liquidprompt',
   'nodejs',
   'nodejs::npm',
