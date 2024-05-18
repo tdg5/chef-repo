@@ -18,6 +18,7 @@ run_list(
   'simple-packages::jhead',
   'simple-packages::multipass',
   'simple-packages::vlc',
+  'simple-packages::gimp',
   'config::tmux',
   'config::vim',
   'config::git',
