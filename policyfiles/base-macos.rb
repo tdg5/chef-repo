@@ -4,6 +4,7 @@ default_source :supermarket
 
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'
+cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
@@ -24,4 +25,5 @@ run_list(
   'config::git',
   'bash_config',
   'vim_plugins',
+  'docker-service',
 )
