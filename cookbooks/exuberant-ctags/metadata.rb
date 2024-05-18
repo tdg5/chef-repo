@@ -10,4 +10,4 @@ depends 'apt'
 
 recipe 'exuberant-ctags', 'Installs exuberant-ctags package'
 
-%w[ debian ubuntu ].each { |os| supports os }
+%w[ darwin debian ubuntu ].each { |os| supports os }

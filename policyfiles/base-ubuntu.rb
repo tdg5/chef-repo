@@ -1,4 +1,4 @@
-name 'universal'
+name 'base-ubuntu'
 
 default_source :supermarket
 

@@ -1,24 +1,24 @@
-name 'gal'
+name 'beast'
 
 default_source :supermarket
 
-include_policy 'base-ubuntu', path: '.'
+include_policy 'base-macos', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 
 run_list ['noop']
 
 username = 'tdg5'
-group = username
+group = 'staff'
 
 default["user"] = {
   email: 'dannyguinther@gmail.com',
   group: group,
-  home_directory: '/home/tdg5',
+  home_directory: '/Users/tdg5',
   username: username,
 }
 
 default["root_user"] = {
-  group: "root",
+  group: "admin",
   username: "root",
 }
