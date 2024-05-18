@@ -16,6 +16,7 @@ run_list(
   'simple-packages::tree',
   'simple-packages::xsel',
   'simple-packages::jhead',
+  'simple-packages::multipass',
   'config::tmux',
   'config::vim',
   'config::git',
