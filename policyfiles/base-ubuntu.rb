@@ -25,6 +25,7 @@ run_list(
   'simple-packages::xsel',
   'simple-packages::gimp',
   'simple-packages::jhead',
+  'simple-packages::vlc',
   'bash_config',
   'config::git',
   'config::sshagent',

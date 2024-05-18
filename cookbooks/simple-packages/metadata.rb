@@ -15,6 +15,7 @@ recipe 'simple-packages::multipass', 'Installs multipass package'
 recipe 'simple-packages::nautilus-dropbox', 'Installs nautilus-dropbox package'
 recipe 'simple-packages::tmux', 'Installs tmux package'
 recipe 'simple-packages::tree', 'Installs tree package'
+recipe 'simple-packages::vlc', 'Installs vlc package'
 recipe 'simple-packages::wmctrl', 'Installs wmctrl package'
 recipe 'simple-packages::xsel', 'Installs xsel package'
 
