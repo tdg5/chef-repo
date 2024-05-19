@@ -1,10 +1,9 @@
-name 'base-ubuntu'
+name 'ubuntu-base'
 
 default_source :supermarket
 
 cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
-cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
@@ -21,11 +20,6 @@ run_list(
   'simple-packages::htop',
   'simple-packages::tmux',
   'simple-packages::tree',
-  'simple-packages::wmctrl',
-  'simple-packages::xsel',
-  'simple-packages::gimp',
-  'simple-packages::jhead',
-  'simple-packages::vlc',
   'bash_config',
   'config::git',
   'config::sshagent',
@@ -34,9 +28,6 @@ run_list(
   'config::vim',
   'config::tmux',
   'openssh',
-  'chrome',
-  'config::mime_applications',
-  'simple-packages::nautilus-dropbox',
   'liquidprompt',
   'nodejs',
   'nodejs::npm',

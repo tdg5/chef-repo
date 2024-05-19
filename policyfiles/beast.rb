@@ -2,7 +2,7 @@ name 'beast'
 
 default_source :supermarket
 
-include_policy 'base-macos', path: '.'
+include_policy 'macos-base', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 

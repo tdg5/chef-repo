@@ -1,4 +1,4 @@
-name 'base-macos'
+name 'macos-base'
 
 default_source :supermarket
 

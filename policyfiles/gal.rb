@@ -2,7 +2,7 @@ name 'gal'
 
 default_source :supermarket
 
-include_policy 'base-ubuntu', path: '.'
+include_policy 'ubuntu-desktop', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 
