@@ -1,3 +1,4 @@
+user_home_directory = node['user']['home_directory']
 username = node['user']['username']
 user_group = node['user']['group']
 
@@ -9,7 +10,7 @@ git installation_config['path'] do
   user installation_config['owner']
 end
 
-user_config_dir = "/home/#{username}/.config"
+user_config_dir = "#{user_home_directory}/.config"
 
 template File.join(user_config_dir, 'liquidpromptrc') do
   group user_group

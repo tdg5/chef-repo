@@ -4,7 +4,7 @@ user_group = node['user']['group']
 
 file "#{user_home_directory}/.bash_profile" do
   action :delete
-  only_if "file -e /home/#{username}/.bash_profile"
+  only_if "test -e #{user_home_directory}/.bash_profile"
 end
 
 template "#{user_home_directory}/.bashrc" do
