@@ -8,6 +8,7 @@ cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'helm', path: '../cookbooks/helm'
+cookbook 'kubectl', path: '../cookbooks/kubectl'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nodejs', '~> 10.1.18', :supermarket
 cookbook 'openssh',  '~> 2.11.11', :supermarket
@@ -33,6 +34,7 @@ run_list(
   'nodejs',
   'nodejs::npm',
   'docker-service',
+  'kubectl',
   'helm',
 )
 
