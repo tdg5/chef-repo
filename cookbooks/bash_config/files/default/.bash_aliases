@@ -247,7 +247,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # Git completions
-if [ "$(type -f __git_complete)" = 'function' ]; then
+if $(type __git_complete > /dev/null 2>&1); then
   __git_complete ga _git_add
   __git_complete gap _git_add
   __git_complete gau _git_add
