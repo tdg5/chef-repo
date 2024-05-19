@@ -6,9 +6,7 @@ cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
-cookbook 'helm', path: '../cookbooks/helm'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
-cookbook 'kubectl', path: '../cookbooks/kubectl'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
@@ -28,6 +26,4 @@ run_list(
   'bash_config',
   'vim_plugins',
   'docker-service',
-  'kubectl',
-  'helm',
 )

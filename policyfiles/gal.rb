@@ -3,6 +3,7 @@ name 'gal'
 default_source :supermarket
 
 include_policy 'ubuntu-desktop', path: '.'
+include_policy 'kubernetes-client', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 
