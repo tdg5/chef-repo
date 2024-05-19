@@ -11,14 +11,14 @@ run_list ['noop']
 username = 'tdg5'
 group = 'staff'
 
-default["user"] = {
+default['user'] = {
   email: 'dannyguinther@gmail.com',
   group: group,
   home_directory: '/Users/tdg5',
   username: username,
 }
 
-default["root_user"] = {
-  group: "admin",
-  username: "root",
+default['root_user'] = {
+  group: 'admin',
+  username: 'root',
 }
