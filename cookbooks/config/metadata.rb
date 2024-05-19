@@ -12,5 +12,6 @@ recipe 'config::mime_applications', 'Configure which applications to use for dif
 recipe 'config::sshagent', 'Installs sshagent automatic ssh key loader script'
 recipe 'config::tmux', 'Installs user tmux config'
 recipe 'config::vim', 'Installs vim config'
+recipe 'config::zsh', 'Installs zsh config'
 
 %w[ debian ubuntu ].each { |os| supports os }

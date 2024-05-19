@@ -22,6 +22,7 @@ run_list(
   'simple-packages::gimp',
   'config::tmux',
   'config::vim',
+  'config::zsh',
   'config::git',
   'bash_config',
   'vim_plugins',
