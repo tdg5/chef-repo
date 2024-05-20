@@ -8,6 +8,7 @@ cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
+cookbook 'spotify', path: '../cookbooks/spotify'
 
 run_list(
   'apt',
@@ -19,4 +20,5 @@ run_list(
   'chrome',
   'config::mime_applications',
   'simple-packages::nautilus-dropbox',
+  'spotify',
 )
