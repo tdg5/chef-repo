@@ -8,7 +8,9 @@ include_policy 'kubernetes-client', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 
-run_list ['noop']
+run_list(
+  'noop',
+)
 
 username = 'tdg5'
 group = username
