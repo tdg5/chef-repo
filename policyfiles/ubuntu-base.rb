@@ -10,6 +10,7 @@ cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nodejs', '~> 10.1.18', :supermarket
 cookbook 'openssh',  '~> 2.11.11', :supermarket
+cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'vim', '~> 2.1.20', :supermarket
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
@@ -32,6 +33,7 @@ run_list(
   'nodejs',
   'nodejs::npm',
   'docker-service',
+  'python',
 )
 
 default['bash']['bashrc']['extra_sources']['extra, env dependent aliases'] = '~/.bash/extra_aliases'

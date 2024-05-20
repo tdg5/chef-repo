@@ -7,6 +7,7 @@ cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
+cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
@@ -27,4 +28,5 @@ run_list(
   'bash_config',
   'vim_plugins',
   'docker-service',
+  'python',
 )
