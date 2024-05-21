@@ -23,6 +23,8 @@ run_list(
   'simple-packages::htop',
   'simple-packages::tmux',
   'simple-packages::tree',
+  'simple-packages::jq',
+  'simple-packages::git-lfs',
   'bash_config',
   'config::git',
   'config::sshagent',
