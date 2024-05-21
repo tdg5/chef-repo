@@ -2,6 +2,7 @@ name 'kubernetes-client'
 
 default_source :supermarket
 
+cookbook 'argocd', path: '../cookbooks/argocd'
 cookbook 'helm', path: '../cookbooks/helm'
 cookbook 'ksops', path: '../cookbooks/ksops'
 cookbook 'kubectl', path: '../cookbooks/kubectl'
@@ -14,4 +15,5 @@ run_list(
   'helm',
   'sops',
   'ksops',
+  'argocd',
 )
