@@ -7,6 +7,7 @@ long_description 'Installs a variety of plugins for vim'
 version '0.0.1'
 
 depends 'exuberant-ctags'
+depends 'simple-packages'
 
 recipe 'vim_plugins', 'Installs all vim plugin recipes'
 

@@ -9,6 +9,7 @@ version '0.0.1'
 depends 'apt'
 
 recipe 'simple-packages', 'Noop'
+recipe 'simple-packages::cmake', 'Installs cmake package'
 recipe 'simple-packages::curl', 'Installs curl package'
 recipe 'simple-packages::htop', 'Installs htop package'
 recipe 'simple-packages::multipass', 'Installs multipass package'
