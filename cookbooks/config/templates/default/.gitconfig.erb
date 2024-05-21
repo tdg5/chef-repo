@@ -1,24 +1,3 @@
-[core]
-  whitespace = trailing-space,space-before-tab
-  excludesfile = <%= node['user']['home_directory'] %>/.gitignore
-[branch]
-  autosetuprebase = always
-  autosetupmerge = true
-[branch "master"]
-  rebase = true
-[color]
-  ui = true
-[github]
-  user = tdg5
-[push]
-  default = tracking
-[rebase]
-  autosquash = true
-[rerere]
-  enabled = true
-[user]
-  name = Danny Guinther
-  email = <%= node['user']['email'] %>
 [alias]
   amd = commit --amend --no-edit
   amend = commit --amend
@@ -35,5 +14,35 @@
   stat = status
   unci = reset --soft HEAD^
   unstage = reset HEAD
+[branch]
+  autosetupmerge = true
+  autosetuprebase = always
+[core]
+  excludesfile = <%= node['user']['home_directory'] %>/.gitignore
+  whitespace = trailing-space,space-before-tab
+[branch "main"]
+  rebase = true
+[branch "master"]
+  rebase = true
+[color]
+  ui = true
+[commit]
+  gpgsign = true
+[github]
+  user = tdg5
+[gpg]
+  format = ssh
+[init]
+  defaultBranch = main
+[push]
+  default = tracking
+[rebase]
+  autosquash = true
+[rerere]
+  enabled = true
+[user]
+  email = <%= node['user']['email'] %>
+  name = Danny Guinther
+  signingKey = <%= node['user']['home_directory'] %>/.ssh/id_ed25519
 [web]
   browser = google-chrome
