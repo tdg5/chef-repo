@@ -9,6 +9,7 @@ cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
+cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'spotify', path: '../cookbooks/spotify'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
@@ -31,4 +32,5 @@ run_list(
   'docker-service',
   'python',
   'spotify',
+  'sops',
 )
