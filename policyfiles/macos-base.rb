@@ -11,6 +11,7 @@ cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'spotify', path: '../cookbooks/spotify'
+cookbook 'terraform', path: '../cookbooks/terraform'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 
 run_list(
@@ -33,4 +34,5 @@ run_list(
   'python',
   'spotify',
   'sops',
+  'terraform',
 )
