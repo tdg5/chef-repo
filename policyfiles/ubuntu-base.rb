@@ -25,6 +25,7 @@ run_list(
   'simple-packages::tree',
   'simple-packages::jq',
   'simple-packages::git-lfs',
+  'simple-packages::net-tools',
   'bash_config',
   'config::git',
   'config::sshagent',
