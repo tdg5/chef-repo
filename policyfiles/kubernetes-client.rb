@@ -7,6 +7,7 @@ cookbook 'helm', path: '../cookbooks/helm'
 cookbook 'ksops', path: '../cookbooks/ksops'
 cookbook 'kubectl', path: '../cookbooks/kubectl'
 cookbook 'kustomize', path: '../cookbooks/kustomize'
+cookbook 'minikube', path: '../cookbooks/minikube'
 cookbook 'sops', path: '../cookbooks/sops'
 
 run_list(
@@ -16,4 +17,5 @@ run_list(
   'sops',
   'ksops',
   'argocd',
+  'minikube',
 )
