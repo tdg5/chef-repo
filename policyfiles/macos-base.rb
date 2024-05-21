@@ -13,6 +13,7 @@ cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'spotify', path: '../cookbooks/spotify'
 cookbook 'terraform', path: '../cookbooks/terraform'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
+cookbook 'vim_wrapper', path: '../cookbooks/vim_wrapper'
 
 run_list(
   'homebrew',
@@ -24,6 +25,7 @@ run_list(
   'simple-packages::multipass',
   'simple-packages::vlc',
   'simple-packages::gimp',
+  'vim_wrapper',
   'config::tmux',
   'config::vim',
   'config::zsh',

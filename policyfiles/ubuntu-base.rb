@@ -14,8 +14,8 @@ cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'terraform', path: '../cookbooks/terraform'
-cookbook 'vim', '~> 2.1.20', :supermarket
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
+cookbook 'vim_wrapper', path: '../cookbooks/vim_wrapper'
 
 run_list(
   'apt',
@@ -26,7 +26,7 @@ run_list(
   'bash_config',
   'config::git',
   'config::sshagent',
-  'vim',
+  'vim_wrapper',
   'vim_plugins',
   'config::vim',
   'config::tmux',
