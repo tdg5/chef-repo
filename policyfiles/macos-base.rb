@@ -9,6 +9,7 @@ cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
+cookbook 'slack', path: '../cookbooks/slack'
 cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'spotify', path: '../cookbooks/spotify'
 cookbook 'terraform', path: '../cookbooks/terraform'
@@ -39,4 +40,5 @@ run_list(
   'spotify',
   'sops',
   'terraform',
+  'slack',
 )
