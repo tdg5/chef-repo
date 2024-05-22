@@ -3,6 +3,7 @@ name 'macos-base'
 default_source :supermarket
 
 cookbook 'bash_config', path: '../cookbooks/bash_config'
+cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
@@ -41,4 +42,5 @@ run_list(
   'sops',
   'terraform',
   'slack',
+  'chrome',
 )
