@@ -12,6 +12,12 @@ end
 
 user_config_dir = "#{user_home_directory}/.config"
 
+directory user_config_dir do
+  group user_group
+  owner username
+  recursive true
+end
+
 template File.join(user_config_dir, 'liquidpromptrc') do
   group user_group
   owner username
