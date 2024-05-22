@@ -19,6 +19,9 @@ cookbook 'vim_wrapper', path: '../cookbooks/vim_wrapper'
 
 run_list(
   'homebrew',
+  'config::zsh',
+  'config::git',
+  'bash_config',
   'simple-packages::htop',
   'simple-packages::tmux',
   'simple-packages::tree',
@@ -32,9 +35,6 @@ run_list(
   'vim_wrapper',
   'config::tmux',
   'config::vim',
-  'config::zsh',
-  'config::git',
-  'bash_config',
   'vim_plugins',
   'docker-service',
   'python',
