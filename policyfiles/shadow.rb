@@ -1,4 +1,4 @@
-name 'mandala'
+name 'shadow'
 
 default_source :supermarket
 
