@@ -10,11 +10,6 @@ function cd_src() {
   cd ~/src/$1
 }
 
-function chef() {
-  [ ! -z $1 ] && name="$1" || name=`hostname`
-  rvmsudo chef-solo -c ~/src/tdg5_chef/solo/solo.rb -j ~/src/tdg5_chef/solo/nodes/${name}.json
-}
-
 function gimprand() {
   x=''
   [ ! -z $1 ] && n="$1" || n="5"
