@@ -11,6 +11,7 @@ cookbook 'homebrew', '~> 5.4.8', :supermarket
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'slack', path: '../cookbooks/slack'
+cookbook 'skype', path: '../cookbooks/skype'
 cookbook 'sops', path: '../cookbooks/sops'
 cookbook 'spotify', path: '../cookbooks/spotify'
 cookbook 'terraform', path: '../cookbooks/terraform'
@@ -42,5 +43,6 @@ run_list(
   'sops',
   'terraform',
   'slack',
+  'skype',
   'chrome',
 )
