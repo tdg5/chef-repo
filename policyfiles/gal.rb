@@ -5,10 +5,10 @@ default_source :supermarket
 include_policy 'ubuntu-desktop', path: '.'
 include_policy 'kubernetes-client', path: '.'
 
-cookbook 'noop', path: '../cookbooks/noop'
+cookbook 'node-specific', path: '../cookbooks/node-specific'
 
 run_list(
-  'noop',
+  'node-specific::gal',
 )
 
 username = 'tdg5'
