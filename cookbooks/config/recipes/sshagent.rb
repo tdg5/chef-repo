@@ -6,6 +6,6 @@ user_group = node['user']['group']
 
 cookbook_file "#{user_home_directory}/.sshagentrc" do
   group user_group
-  mode 0744
+  mode '0744'
   owner username
 end

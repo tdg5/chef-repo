@@ -21,11 +21,11 @@ end
 template File.join(user_config_dir, 'liquidpromptrc') do
   group user_group
   owner username
-  mode 0755
+  mode '0755'
 end
 
 template File.join(user_config_dir, 'liquidprompt.ps1') do
   group user_group
   owner username
-  mode 0755
+  mode '0755'
 end

@@ -4,6 +4,6 @@ username = node['user']['username']
 
 cookbook_file "#{user_home_directory}/.local/share/applications/mimeapps.list" do
   group user_group
-  mode 0664
+  mode '0664'
   owner username
 end

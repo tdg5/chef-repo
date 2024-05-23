@@ -14,6 +14,6 @@ root_user = node['root_user']['username']
 root_group = node['root_user']['group']
 cookbook_file '/usr/local/bin/new_chrome_with_focus' do
   group root_group
-  mode 0755
+  mode '0755'
   owner root_user
 end

@@ -9,13 +9,13 @@ end
 
 template "#{user_home_directory}/.bashrc" do
   group user_group
-  mode 0644
+  mode '0644'
   owner username
 end
 
 cookbook_file "#{user_home_directory}/.bash_aliases" do
   group user_group
-  mode 0644
+  mode '0644'
   owner username
 end
 
@@ -33,7 +33,7 @@ if completion_dir
   node['bash']['completion'].each do |completion|
     cookbook_file "#{completion_dir}/#{completion}" do
       group root_group
-      mode 0644
+      mode '0644'
       owner root_user
       source "completion/#{completion}"
     end
