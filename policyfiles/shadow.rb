@@ -6,10 +6,10 @@ include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-sdk', path: '.'
 
-cookbook 'noop', path: '../cookbooks/noop'
+cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 
 run_list(
-  'noop',
+  'azure-cli',
 )
 
 username = 'danny'
