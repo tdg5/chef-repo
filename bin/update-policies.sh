@@ -47,6 +47,12 @@ while [ -n "$REMAINING_POLICY_FILES" ]; do
     POLICY_FILES_UPDATED_COUNT=$(($POLICY_FILES_UPDATED_COUNT + 1))
     echo "[$POLICY_FILES_UPDATED_COUNT/$POLICY_FILES_COUNT] Updating $POLICY_FILE"
     cinc update "$POLICY_FILE"
-    REMAINING_POLICY_FILES=$(echo "$REMAINING_POLICY_FILES" | grep -v "$POLICY_FILE")
+    # This is elaborate because grep -v exits with status code 1 if no files with
+    # matches are found which is expected when all dependencies have been resolved
+    REMAINING_POLICY_FILES=$(
+      {
+        echo "$REMAINING_POLICY_FILES" | grep -v "$POLICY_FILE"
+      } || true
+    )
   done
 done
