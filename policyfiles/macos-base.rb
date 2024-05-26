@@ -8,6 +8,7 @@ cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 5.4.8', :supermarket
+cookbook 'macos-packages', path: '../cookbooks/macos-packages'
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'slack', path: '../cookbooks/slack'
@@ -45,4 +46,5 @@ run_list(
   'slack',
   'skype',
   'chrome',
+  'macos-packages::android-file-transfer',
 )
