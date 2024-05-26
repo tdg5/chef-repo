@@ -8,5 +8,6 @@ version           '0.0.1'
 
 recipe 'macos-packages', 'Noop'
 recipe 'macos-packages::android-file-transfer', 'Install android-file-transfer package'
+recipe 'macos-packages::nvm', 'Install nvm package'
 
 %w[ darwin ].each { |os| supports os }

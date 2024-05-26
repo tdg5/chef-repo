@@ -8,7 +8,7 @@ cookbook_file "#{home_directory}/.zprofile" do
   owner username
 end
 
-cookbook_file "#{home_directory}/.zshrc" do
+template "#{home_directory}/.zshrc" do
   group group_name
   mode 0644
   owner username

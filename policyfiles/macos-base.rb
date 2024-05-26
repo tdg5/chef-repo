@@ -47,4 +47,5 @@ run_list(
   'skype',
   'chrome',
   'macos-packages::android-file-transfer',
+  'macos-packages::nvm',
 )

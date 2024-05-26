@@ -1,0 +1,17 @@
+setopt interactivecomments
+
+if [ -d "/opt/homebrew/bin" ]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
+
+[ -f "$HOME/.bash_aliases" ] && source "$HOME/.bash_aliases"
+
+<%
+  nvm_sh_path = ::File.join(node['nvm']['path'], 'nvm.sh')
+  nvm_bash_completion_path = ::File.join(node['nvm']['path'], 'etc', 'bash_completion.d', 'nvm')
+%>
+if [ -d "$HOME/.nvm" ]; then
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "<%= nvm_sh_path %>" ] && source "<%= nvm_sh_path %>"
+  [ -s "<%= nvm_bash_completion_path %>" ] && source "<%= nvm_bash_completion_path %>"
+fi

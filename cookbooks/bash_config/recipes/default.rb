@@ -24,7 +24,7 @@ if platform == 'mac_os_x'
   package 'bash-completion'
 end
 
-completion_dir = node['bash']['completion_dir'][platform]
+completion_dir = node['bash']['completion_dir']
 
 if completion_dir
   root_user = node['root_user']['username']
