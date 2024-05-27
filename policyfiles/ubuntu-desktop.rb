@@ -17,6 +17,7 @@ run_list(
   'simple-packages::gimp',
   'simple-packages::jhead',
   'simple-packages::vlc',
+  'simple-packages::firefox',
   'chrome',
   'config::mime_applications',
   'simple-packages::nautilus-dropbox',
