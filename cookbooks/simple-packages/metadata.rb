@@ -24,4 +24,4 @@ recipe 'simple-packages::vlc', 'Installs vlc package'
 recipe 'simple-packages::wmctrl', 'Installs wmctrl package'
 recipe 'simple-packages::xsel', 'Installs xsel package'
 
-%w[ debian ubuntu ].each { |os| supports os }
+%w[ debian mac_os_x ubuntu ].each { |os| supports os }

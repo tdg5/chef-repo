@@ -1,1 +1,3 @@
-package 'net-tools'
+if node['platform_family'] == 'debian'
+  package 'net-tools'
+end
