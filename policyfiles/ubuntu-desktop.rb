@@ -20,6 +20,6 @@ run_list(
   'simple-packages::firefox',
   'chrome',
   'config::mime_applications',
-  'simple-packages::nautilus-dropbox',
+  'simple-packages::dropbox',
   'spotify',
 )

@@ -34,6 +34,7 @@ run_list(
   'simple-packages::multipass',
   'simple-packages::vlc',
   'simple-packages::gimp',
+  'simple-packages::dropbox',
   'vim_wrapper',
   'config::tmux',
   'config::vim',
