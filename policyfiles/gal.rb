@@ -3,6 +3,7 @@ name 'gal'
 default_source :supermarket
 
 include_policy 'ubuntu-desktop', path: '.'
+include_policy 'ubuntu-vm-host', path: '.'
 include_policy 'kubernetes-client', path: '.'
 
 cookbook 'node-specific', path: '../cookbooks/node-specific'
