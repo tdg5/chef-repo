@@ -4,7 +4,7 @@ default_source :supermarket
 
 include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
-include_policy 'dotnet-core', path: '.'
+include_policy 'dotnet-sdk', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
 

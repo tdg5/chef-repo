@@ -4,12 +4,12 @@ default_source :supermarket
 
 include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
-include_policy 'dotnet-core', path: '.'
+include_policy 'dotnet-sdk', path: '.'
 
-cookbook 'vscode', path: '../cookbooks/vscode'
+cookbook 'noop', path: '../cookbooks/noop'
 
 run_list(
-  'vscode',
+  'noop',
 )
 
 username = 'danny'
