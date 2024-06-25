@@ -7,9 +7,11 @@ include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-sdk', path: '.'
 
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
+cookbook 'snowflake-snowsql', path: '../cookbooks/snowflake-snowsql'
 
 run_list(
   'azure-cli',
+  'snowflake-snowsql',
 )
 
 username = 'danny'
