@@ -15,4 +15,4 @@ default['sops']['install']['username'] = node['root_user']['username']
 
 default['sops']['operating_system'] = node['os']
 
-default['sops']['version'] = '3.8.1'
+default['sops']['version'] = '3.9.0'
