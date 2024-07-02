@@ -15,3 +15,11 @@ if [ -d "$HOME/.nvm" ]; then
   [ -s "<%= nvm_sh_path %>" ] && source "<%= nvm_sh_path %>"
   [ -s "<%= nvm_bash_completion_path %>" ] && source "<%= nvm_bash_completion_path %>"
 fi
+
+if [ -d "$HOME/bin" ]; then
+  export PATH="$HOME/bin:$PATH"
+fi
+
+if [ -f "$HOME/.shell/extra_sources" ]; then
+  source "$HOME/.shell/extra_sources"
+fi
