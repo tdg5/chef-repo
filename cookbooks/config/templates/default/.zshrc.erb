@@ -23,3 +23,21 @@ fi
 if [ -f "$HOME/.shell/extra_sources" ]; then
   source "$HOME/.shell/extra_sources"
 fi
+
+# The max size of the history file.
+HISTFILESIZE=100000000
+
+# The number of commands that are loaded into memory from the history file.
+HISTSIZE=250000
+
+# The number of command stored in the history file.
+SAVEHIST=500000
+
+# Include a timestamp with history commands.
+setopt EXTENDED_HISTORY
+
+# Skip duplicates when searching history.
+setopt HIST_FIND_NO_DUPS
+
+# Immediately append commands to the history.
+setopt INC_APPEND_HISTORY
