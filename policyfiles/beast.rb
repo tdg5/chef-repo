@@ -7,8 +7,10 @@ include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-sdk', path: '.'
 
 cookbook 'noop', path: '../cookbooks/noop'
+cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 
 run_list(
+  'azure-cli',
   'noop',
 )
 
