@@ -24,6 +24,16 @@ if [ -f "$HOME/.shell/extra_sources" ]; then
   source "$HOME/.shell/extra_sources"
 fi
 
+RUBY_PATH="/opt/homebrew/opt/ruby/bin"
+if [ -d "$RUBY_PATH" ]; then
+  RUBY_VERSION="$($RUBY_PATH/ruby --version | grep --only-matching -E 'ruby [^ ]+' | sed 's/.* //g')"
+  GEM_PATH="/opt/homebrew/lib/ruby/gems/$RUBY_VERSION/bin"
+  if [ -d "$GEM_PATH" ]; then
+    PATH="$RUBY_PATH:$GEM_PATH:$PATH"
+  fi
+  PATH="$RUBY_PATH:$GEM_PATH:$PATH"
+fi
+
 # The max size of the history file.
 HISTFILESIZE=100000000
 
