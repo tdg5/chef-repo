@@ -193,6 +193,8 @@ alias gd='git diff'
 alias gds='git diff --staged'
 alias gg='git grep'
 alias ggi='git grep -i'
+alias ggin='git grep -i -n'
+alias ggn='git grep -n'
 alias ggno='git grep --name-only'
 alias gget='git pull'
 alias gl='git log'
@@ -254,6 +256,8 @@ if $(type __git_complete > /dev/null 2>&1); then
   __git_complete gd _git_diff
   __git_complete gg _git_grep
   __git_complete ggi _git_grep
+  __git_complete ggn _git_grep
+  __git_complete ggin _git_grep
   __git_complete ggno _git_grep
   __git_complete gget _git_pull
   __git_complete gl _git_log
