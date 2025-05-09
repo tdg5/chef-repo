@@ -129,7 +129,8 @@ function gbrr() {
       echo "$i) ${BRANCHES[$i]}"
   done
 
-  read -p "Switch to which branch? "
+  echo -n "Switch to which branch? "
+  read
   if [[ $REPLY != "" ]] && [[ ${BRANCHES[$REPLY]} != "" ]]; then
       echo
       git checkout ${BRANCHES[$REPLY]}
