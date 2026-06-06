@@ -11,12 +11,26 @@ if [ -z "$NODE_NAME" ]; then
   exit 2
 fi
 
+POLICY_FILE="$REPO_DIR/policyfiles/$NODE_NAME.rb"
+if [ ! -f "$POLICY_FILE" ]; then
+  echo "No policyfile at $POLICY_FILE. Aborting." 1>&2
+  exit 2
+fi
+
+# Lockfiles are gitignored and generated per-host, so generate one if it's
+# missing before exporting (which requires the lock).
+LOCK_FILE="$REPO_DIR/policyfiles/$NODE_NAME.lock.json"
+if [ ! -f "$LOCK_FILE" ]; then
+  echo "No lockfile at $LOCK_FILE; generating it..."
+  cinc install "$POLICY_FILE"
+fi
+
 EXPORT_DIR="$REPO_DIR/.cache/$NODE_NAME"
 if [ -d "$EXPORT_DIR" ]; then
   sudo rm -rf "$EXPORT_DIR"
 fi
 
-cinc export "$REPO_DIR/policyfiles/$NODE_NAME.rb" "$EXPORT_DIR"
+cinc export "$POLICY_FILE" "$EXPORT_DIR"
 
 cd "$EXPORT_DIR"
 sudo cinc-client -z
