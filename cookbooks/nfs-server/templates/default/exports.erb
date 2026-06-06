@@ -1,0 +1,4 @@
+# Managed by Chef (nfs-server cookbook). Do not edit by hand.
+<% @exports.each do |export| -%>
+<%= export['path'] %> <%= export['network'] %>(<%= export['options'] %>)
+<% end -%>

@@ -59,3 +59,16 @@ mount mount_point do
   options node['cluster_storage']['mount_options']
   action [:mount, :enable]
 end
+
+# 4. Node-local subtrees on the bulk disk. Created AFTER the mount so they live
+#    on the HDD, not the underlying root filesystem. The 'nfs' subtree is the
+#    only path the nfs-server cookbook exports; siblings (e.g. bitcoind) are
+#    node-local volumes.
+node['cluster_storage']['subdirs'].each do |sub|
+  directory ::File.join(mount_point, sub['path']) do
+    owner sub['owner'] || 'root'
+    group sub['group'] || 'root'
+    mode sub['mode'] || '0755'
+    recursive true
+  end
+end

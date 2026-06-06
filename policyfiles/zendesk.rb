@@ -6,7 +6,9 @@ cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'cluster-storage', path: '../cookbooks/cluster-storage'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
+cookbook 'kube-prep', path: '../cookbooks/kube-prep'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
+cookbook 'nfs-server', path: '../cookbooks/nfs-server'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'swap', path: '../cookbooks/swap'
 cookbook 'ufw', path: '../cookbooks/ufw'
@@ -24,10 +26,12 @@ run_list(
   'config::vim',
   'config::tmux',
   'liquidprompt',
-  # Host infrastructure (this session's work).
+  # Host infrastructure.
   'swap::disable',
   'ufw',
+  'kube-prep',
   'cluster-storage',
+  'nfs-server',
 )
 
 username = 'tdg5'
@@ -49,6 +53,24 @@ default['root_user'] = {
 # node-specific identifiers consumed by the cluster-storage cookbook.
 default['cluster_storage']['disk']['by_id'] = 'ata-ST4000DM000-1F2168_W3002BF7'
 default['cluster_storage']['uuid'] = '0adb1308-714a-4af6-980a-e7b7f22df022'
+
+# Split the HDD into an exported NFS subtree and node-local siblings. Only
+# 'nfs' is served over NFS; 'bitcoind' is a node-local volume (its container
+# entrypoint chowns the dir, so root-owned is fine).
+default['cluster_storage']['subdirs'] = [
+  { 'path' => 'nfs' },
+  { 'path' => 'bitcoind' },
+]
+
+# Export ONLY the nfs subtree to the LAN/cluster for RWX persistent volumes.
+# NFSv4 clients reach this on port 2049 (already opened in the ufw cookbook).
+default['nfs_server']['exports'] = [
+  {
+    'path' => '/srv/cluster-storage/nfs',
+    'network' => '192.168.1.0/24',
+    'options' => 'rw,sync,no_subtree_check',
+  },
+]
 
 # Files sourced from the generated ~/.bashrc. The template guards each with
 # `[ -e <path> ]`, so entries whose file is absent are simply skipped.
