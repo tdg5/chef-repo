@@ -72,6 +72,11 @@ default['nfs_server']['exports'] = [
   },
 ]
 
+# k3s networking: routed pod/service traffic needs FORWARD ACCEPT, and the pod
+# (10.42.0.0/16) and service (10.43.0.0/16) CIDRs are trusted for all ports.
+default['ufw']['forward_policy'] = 'ACCEPT'
+default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
+
 # Files sourced from the generated ~/.bashrc. The template guards each with
 # `[ -e <path> ]`, so entries whose file is absent are simply skipped.
 default['bash']['bashrc']['extra_sources']['standard bash aliases'] = '~/.bash_aliases'
