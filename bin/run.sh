@@ -11,6 +11,21 @@ if [ -z "$NODE_NAME" ]; then
   exit 2
 fi
 
+# Optional second argument enables cinc-client why-run (dry-run) mode, which
+# reports what would converge without making changes.
+CINC_CLIENT_ARGS=()
+if [ -n "$2" ]; then
+  case "$2" in
+    --why-run|--dry-run|-W)
+      CINC_CLIENT_ARGS+=(--why-run)
+      ;;
+    *)
+      echo "Unknown option: $2. Supported: --why-run|--dry-run|-W" 1>&2
+      exit 2
+      ;;
+  esac
+fi
+
 POLICY_FILE="$REPO_DIR/policyfiles/$NODE_NAME.rb"
 if [ ! -f "$POLICY_FILE" ]; then
   echo "No policyfile at $POLICY_FILE. Aborting." 1>&2
@@ -33,6 +48,6 @@ fi
 cinc export "$POLICY_FILE" "$EXPORT_DIR"
 
 cd "$EXPORT_DIR"
-sudo cinc-client -z
+sudo cinc-client -z "${CINC_CLIENT_ARGS[@]}"
 cd "$REPO_DIR"
 sudo rm -rf "$EXPORT_DIR"
