@@ -6,6 +6,7 @@ cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'cluster-storage', path: '../cookbooks/cluster-storage'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
+cookbook 'k3s-agent', path: '../cookbooks/k3s-agent'
 cookbook 'kube-prep', path: '../cookbooks/kube-prep'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nfs-server', path: '../cookbooks/nfs-server'
@@ -32,6 +33,7 @@ run_list(
   'kube-prep',
   'cluster-storage',
   'nfs-server',
+  'k3s-agent',
 )
 
 username = 'tdg5'
@@ -76,6 +78,13 @@ default['nfs_server']['exports'] = [
 # (10.42.0.0/16) and service (10.43.0.0/16) CIDRs are trusted for all ports.
 default['ufw']['forward_policy'] = 'ACCEPT'
 default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
+
+# Declarative k3s node config. Labels mirror what the agent was joined with
+# (--node-label); managing them here makes a rebuilt node come up labelled. The
+# server URL + secret token stay in the manually-created service env file.
+default['k3s_agent']['config'] = {
+  'node-label' => ['node-tier=primary', 'storage-node=true'],
+}
 
 # Files sourced from the generated ~/.bashrc. The template guards each with
 # `[ -e <path> ]`, so entries whose file is absent are simply skipped.
