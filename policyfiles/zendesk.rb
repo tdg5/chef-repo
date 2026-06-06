@@ -3,10 +3,13 @@ name 'zendesk'
 default_source :supermarket
 
 cookbook 'bash_config', path: '../cookbooks/bash_config'
+cookbook 'cluster-storage', path: '../cookbooks/cluster-storage'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
+cookbook 'swap', path: '../cookbooks/swap'
+cookbook 'ufw', path: '../cookbooks/ufw'
 cookbook 'vim_plugins', path: '../cookbooks/vim_plugins'
 cookbook 'vim_wrapper', path: '../cookbooks/vim_wrapper'
 
@@ -21,6 +24,10 @@ run_list(
   'config::vim',
   'config::tmux',
   'liquidprompt',
+  # Host infrastructure (this session's work).
+  'swap::disable',
+  'ufw',
+  'cluster-storage',
 )
 
 username = 'tdg5'
@@ -37,6 +44,11 @@ default['root_user'] = {
   group: 'root',
   username: 'root',
 }
+
+# Bulk-storage HDD relocated from proxima (4 TB Seagate ST4000DM000). These are
+# node-specific identifiers consumed by the cluster-storage cookbook.
+default['cluster_storage']['disk']['by_id'] = 'ata-ST4000DM000-1F2168_W3002BF7'
+default['cluster_storage']['uuid'] = '0adb1308-714a-4af6-980a-e7b7f22df022'
 
 # Files sourced from the generated ~/.bashrc. The template guards each with
 # `[ -e <path> ]`, so entries whose file is absent are simply skipped.
