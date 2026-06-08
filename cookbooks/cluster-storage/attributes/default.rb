@@ -1,22 +1,30 @@
-# Stable by-id path of the bulk-storage disk (survives sd* reordering). This is
-# node-specific, so it MUST be set in the policyfile; there is no sane default.
-default['cluster_storage']['disk']['by_id'] = nil
+# cluster-storage provisions one or more dedicated storage disks (bulk HDDs, an
+# SSD tier, ...) at stable mount points for Kubernetes persistent volumes
+# (local-path today, the NFS export for the bulk subtree). Each disk gets a
+# single GPT partition, is formatted with a stable label and pinned UUID, and is
+# mounted by UUID. The destructive partition/format steps are guarded so they
+# only run on a blank disk.
+#
+# The concrete disk list is node-specific and MUST be set in the policyfile;
+# there is no sane default. Each entry in node['cluster_storage']['volumes'] is:
+#
+#   'by_id'        (required) stable /dev/disk/by-id name (survives sd* reorder)
+#   'uuid'         (required) filesystem UUID, pinned at format time (mkfs -U)
+#   'label'        (required) filesystem + GPT partition label
+#   'mount_point'  (required) absolute mount path
+#   'fstype'       (optional) defaults to ['defaults']['fstype'] below
+#   'mount_options'(optional) defaults to ['defaults']['mount_options'] below
+#   'reserved_blocks_percentage' (optional, ext4) defaults below
+#   'subdirs'      (optional) [{ 'path' => ..., 'owner'/'group'/'mode' => ... }],
+#                  created on the mounted disk after mount. The 'nfs' subtree is
+#                  the only path the nfs-server cookbook exports; siblings (e.g.
+#                  bitcoind) are node-local volumes.
+default['cluster_storage']['volumes'] = []
 
-# Filesystem UUID. Pinned at format time (mkfs -U) so the mount-by-UUID entry is
-# stable even if the disk is rebuilt. Node-specific; set it in the policyfile.
-default['cluster_storage']['uuid'] = nil
-
-default['cluster_storage']['label'] = 'cluster-bulk'
-default['cluster_storage']['fstype'] = 'ext4'
-default['cluster_storage']['mount_point'] = '/srv/cluster-storage'
-default['cluster_storage']['mount_options'] = 'defaults,nofail'
-
+# Per-volume fallbacks the recipe applies when an entry omits the key.
+default['cluster_storage']['defaults']['fstype'] = 'ext4'
+# nofail so a missing/failed data disk never blocks boot.
+default['cluster_storage']['defaults']['mount_options'] = 'defaults,nofail'
 # ext4 reserved-blocks percentage. 0 reclaims the default 5% on a bulk volume
 # that holds no system files.
-default['cluster_storage']['reserved_blocks_percentage'] = 0
-
-# Subdirectories to create on the mounted disk. Each entry: 'path' (relative to
-# mount_point), and optional 'owner'/'group'/'mode'. The 'nfs' subtree is the
-# only path exported over NFS; siblings (e.g. bitcoind) are node-local. Set the
-# concrete list in the policyfile.
-default['cluster_storage']['subdirs'] = []
+default['cluster_storage']['defaults']['reserved_blocks_percentage'] = 0

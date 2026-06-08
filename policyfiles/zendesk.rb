@@ -51,17 +51,55 @@ default['root_user'] = {
   username: 'root',
 }
 
-# Bulk-storage HDD relocated from proxima (4 TB Seagate ST4000DM000). These are
-# node-specific identifiers consumed by the cluster-storage cookbook.
-default['cluster_storage']['disk']['by_id'] = 'ata-ST4000DM000-1F2168_W3002BF7'
-default['cluster_storage']['uuid'] = '0adb1308-714a-4af6-980a-e7b7f22df022'
-
-# Split the HDD into an exported NFS subtree and node-local siblings. Only
-# 'nfs' is served over NFS; 'bitcoind' is a node-local volume (its container
-# entrypoint chowns the dir, so root-owned is fine).
-default['cluster_storage']['subdirs'] = [
-  { 'path' => 'nfs' },
-  { 'path' => 'bitcoind' },
+# Storage disks on zendesk, consumed by the cluster-storage cookbook. Each is a
+# single-GPT-partition ext4 volume mounted by UUID (defaults,nofail). The
+# partition/format steps are guarded, so listing an already-provisioned disk is a
+# safe no-op.
+default['cluster_storage']['volumes'] = [
+  # 4 TB bulk HDD (Seagate ST4000DM000), relocated from proxima. Split into an
+  # exported NFS subtree and node-local siblings; only 'nfs' is served over NFS.
+  # 'bitcoind' holds the node's block data (the container entrypoint chowns it,
+  # so root-owned is fine).
+  {
+    'by_id' => 'ata-ST4000DM000-1F2168_W3002BF7',
+    'uuid' => '0adb1308-714a-4af6-980a-e7b7f22df022',
+    'label' => 'cluster-bulk',
+    'mount_point' => '/srv/cluster-storage',
+    'subdirs' => [
+      { 'path' => 'nfs' },
+      { 'path' => 'bitcoind' },
+    ],
+  },
+  # SSD tier (OCZ Vertex 3, 80 GB). Fast random-IO storage; holds bitcoind's
+  # chainstate (UTXO LevelDB) at /srv/cluster-ssd/bitcoind, overlaid into the pod
+  # at /data/chainstate. Owned 101:101 to match the bitcoind container user — the
+  # chainstate dir is the volume's mount target, not chowned by the entrypoint.
+  {
+    'by_id' => 'ata-OCZ-VERTEX3_OCZ-Z1NV0AX5ZHN6VSSL',
+    'uuid' => '120e6ace-5016-404d-9f61-79b1fd0efc66',
+    'label' => 'cluster-ssd',
+    'mount_point' => '/srv/cluster-ssd',
+    'subdirs' => [
+      { 'path' => 'bitcoind', 'owner' => 101, 'group' => 101 },
+    ],
+  },
+  # Bulk HDD #2 (WD WD10EAVS, 1 TB). Node-local dynamic bulk capacity backing the
+  # `local-path-bulk` StorageClass; the provisioner creates per-PVC dirs at the
+  # mount root, so no pre-created subdirs.
+  {
+    'by_id' => 'ata-WDC_WD10EAVS-00D7B1_WD-WCAU45839341',
+    'uuid' => '3fc28a74-bac3-4cd7-9cac-a02220b048a2',
+    'label' => 'cluster-bulk2',
+    'mount_point' => '/srv/cluster-storage-2',
+  },
+  # Bulk HDD #3 (WD WD10JPVT, 1 TB). Second disk behind `local-path-bulk`; the
+  # provisioner spreads volumes across this and cluster-bulk2.
+  {
+    'by_id' => 'ata-WDC_WD10JPVT-22A1YT0_WD-WX21C6280059',
+    'uuid' => '6e74648b-26d1-43a1-beb2-9d6cdda18e1f',
+    'label' => 'cluster-bulk3',
+    'mount_point' => '/srv/cluster-storage-3',
+  },
 ]
 
 # Export ONLY the nfs subtree to the LAN/cluster for RWX persistent volumes.
