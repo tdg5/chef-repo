@@ -1,7 +1,13 @@
 export SSH_ENV="$HOME/.ssh/environment";
 
+# Respect an ssh-agent forwarded over the connection (e.g. `ssh -A`). For a
+# forwarded agent sshd exports SSH_AUTH_SOCK but not SSH_AGENT_PID, so in that
+# case leave the environment alone instead of clobbering it with the local
+# persistent agent below.
+if [ -n "$SSH_CONNECTION" ] && [ -n "$SSH_AUTH_SOCK" ] && [ -S "$SSH_AUTH_SOCK" ] && [ -z "$SSH_AGENT_PID" ]; then
+  : # forwarded agent present; nothing to do
 # Initialize a new "ssh-agent"
-if [ `pgrep -U $UID ssh-agent | wc -l` -eq 0 ]; then
+elif [ `pgrep -U $UID ssh-agent | wc -l` -eq 0 ]; then
   # Start the agent
   ssh-agent | head -2 > "${SSH_ENV}";
   chmod 600 $SSH_ENV;
