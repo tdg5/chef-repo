@@ -25,6 +25,41 @@ file '/etc/rancher/k3s/config.yaml' do
   notifies :restart, 'service[k3s-agent]', :delayed
 end
 
+# Storage-mount ordering guard. Render a systemd drop-in so the agent depends on
+# (and starts after) the data-disk mounts it serves -- see
+# node['k3s_agent']['required_mounts']. This prevents the kubelet from serving an
+# empty root-fs fallback dir for a `local` PV / local-path volume when a `nofail`
+# disk failed to mount. daemon-reload makes systemd pick up the drop-in; we do
+# NOT restart the agent here -- the dependency only matters at the next start, and
+# bouncing the agent would needlessly disrupt running pods on a stateful node.
+required_mounts = Array(node['k3s_agent']['required_mounts'])
+
+execute 'k3s-agent systemctl daemon-reload' do
+  command 'systemctl daemon-reload'
+  action :nothing
+end
+
+directory '/etc/systemd/system/k3s-agent.service.d' do
+  recursive true
+  mode '0755'
+  owner 'root'
+  group 'root'
+  only_if { ::File.exist?('/etc/systemd/system/k3s-agent.service') }
+  not_if { required_mounts.empty? }
+end
+
+file '/etc/systemd/system/k3s-agent.service.d/10-require-storage-mounts.conf' do
+  content "# Managed by Chef (k3s-agent cookbook). Do not edit by hand.\n" \
+          "[Unit]\n" \
+          "RequiresMountsFor=#{required_mounts.join(' ')}\n"
+  mode '0644'
+  owner 'root'
+  group 'root'
+  only_if { ::File.exist?('/etc/systemd/system/k3s-agent.service') }
+  not_if { required_mounts.empty? }
+  notifies :run, 'execute[k3s-agent systemctl daemon-reload]', :immediately
+end
+
 # Keep the agent enabled on boot. Guarded so a node that hasn't run the manual
 # install yet (no unit file) simply skips this -- the config.yaml above is still
 # written, ready for when the agent is installed.

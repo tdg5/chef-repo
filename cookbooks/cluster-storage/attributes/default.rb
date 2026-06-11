@@ -15,10 +15,15 @@
 #   'fstype'       (optional) defaults to ['defaults']['fstype'] below
 #   'mount_options'(optional) defaults to ['defaults']['mount_options'] below
 #   'reserved_blocks_percentage' (optional, ext4) defaults below
-#   'subdirs'      (optional) [{ 'path' => ..., 'owner'/'group'/'mode' => ... }],
-#                  created on the mounted disk after mount. The 'nfs' subtree is
-#                  the only path the nfs-server cookbook exports; siblings (e.g.
-#                  bitcoind) are node-local volumes.
+#   'subdirs'      (optional) [{ 'path' => ..., 'owner'/'group'/'mode' => ...,
+#                  'sentinel' => true|'<name>' }], created on the mounted disk
+#                  after mount. The 'nfs' subtree is the only path the nfs-server
+#                  cookbook exports; siblings (e.g. bitcoind) are node-local
+#                  volumes. 'sentinel' writes a mount-proof marker file inside the
+#                  subdir (default name '.cluster-disk-ok', or the given string):
+#                  it lives only on the mounted disk, so a consumer can assert the
+#                  disk is really mounted before using a `local` PV path (which
+#                  does not itself verify the mount; see the recipe).
 default['cluster_storage']['volumes'] = []
 
 # Per-volume fallbacks the recipe applies when an entry omits the key.

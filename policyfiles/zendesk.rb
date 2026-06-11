@@ -54,12 +54,14 @@ default['root_user'] = {
 # Storage disks on zendesk, consumed by the cluster-storage cookbook. Each is a
 # single-GPT-partition ext4 volume mounted by UUID (defaults,nofail). The
 # partition/format steps are guarded, so listing an already-provisioned disk is a
-# safe no-op.
-default['cluster_storage']['volumes'] = [
+# safe no-op. Held in a local so the k3s-agent required_mounts list below can be
+# derived from the same source of truth.
+cluster_storage_volumes = [
   # 4 TB bulk HDD (Seagate ST4000DM000), relocated from proxima. Split into an
   # exported NFS subtree and node-local siblings; only 'nfs' is served over NFS.
   # 'bitcoind' holds the node's block data (the container entrypoint chowns it,
-  # so root-owned is fine).
+  # so root-owned is fine). 'sentinel' writes a mount-proof marker the bitcoind
+  # initContainer checks before starting (guards against a nofail unmount).
   {
     'by_id' => 'ata-ST4000DM000-1F2168_W3002BF7',
     'uuid' => '0adb1308-714a-4af6-980a-e7b7f22df022',
@@ -67,20 +69,22 @@ default['cluster_storage']['volumes'] = [
     'mount_point' => '/srv/cluster-storage',
     'subdirs' => [
       { 'path' => 'nfs' },
-      { 'path' => 'bitcoind' },
+      { 'path' => 'bitcoind', 'sentinel' => true },
     ],
   },
   # SSD tier (OCZ Vertex 3, 80 GB). Fast random-IO storage; holds bitcoind's
   # chainstate (UTXO LevelDB) at /srv/cluster-ssd/bitcoind, overlaid into the pod
   # at /data/chainstate. Owned 101:101 to match the bitcoind container user — the
   # chainstate dir is the volume's mount target, not chowned by the entrypoint.
+  # 'sentinel' writes a mount-proof marker the bitcoind initContainer checks; this
+  # is the disk that came up unmounted once and left the chainstate empty.
   {
     'by_id' => 'ata-OCZ-VERTEX3_OCZ-Z1NV0AX5ZHN6VSSL',
     'uuid' => '120e6ace-5016-404d-9f61-79b1fd0efc66',
     'label' => 'cluster-ssd',
     'mount_point' => '/srv/cluster-ssd',
     'subdirs' => [
-      { 'path' => 'bitcoind', 'owner' => 101, 'group' => 101 },
+      { 'path' => 'bitcoind', 'owner' => 101, 'group' => 101, 'sentinel' => true },
     ],
   },
   # Bulk HDD #2 (WD WD10EAVS, 1 TB). Node-local dynamic bulk capacity backing the
@@ -101,6 +105,7 @@ default['cluster_storage']['volumes'] = [
     'mount_point' => '/srv/cluster-storage-3',
   },
 ]
+default['cluster_storage']['volumes'] = cluster_storage_volumes
 
 # Export ONLY the nfs subtree to the LAN/cluster for RWX persistent volumes.
 # NFSv4 clients reach this on port 2049 (already opened in the ufw cookbook).
@@ -123,6 +128,14 @@ default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
 default['k3s_agent']['config'] = {
   'node-label' => ['node-tier=primary', 'storage-node=true'],
 }
+
+# Gate k3s-agent startup on every cluster-storage disk being mounted. These disks
+# back `local`/local-path PVs, and the agent must not serve an empty root-fs
+# fallback dir when a `nofail` disk failed to mount (the failure mode that once
+# wiped bitcoind's chainstate). Rendered as RequiresMountsFor in a systemd
+# drop-in; `nofail` still keeps the box booting/reachable if a disk is missing.
+default['k3s_agent']['required_mounts'] =
+  cluster_storage_volumes.map { |vol| vol['mount_point'] }
 
 # Files sourced from the generated ~/.bashrc. The template guards each with
 # `[ -e <path> ]`, so entries whose file is absent are simply skipped.

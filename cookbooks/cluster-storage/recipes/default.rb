@@ -74,11 +74,32 @@ volumes.each do |vol|
   #    not the underlying root filesystem. The 'nfs' subtree is the only path the
   #    nfs-server cookbook exports; siblings (e.g. bitcoind) are node-local.
   subdirs.each do |sub|
-    directory ::File.join(mount_point, sub['path']) do
+    sub_path = ::File.join(mount_point, sub['path'])
+
+    directory sub_path do
       owner sub['owner'] || 'root'
       group sub['group'] || 'root'
       mode sub['mode'] || '0755'
       recursive true
+    end
+
+    # Optional mount-proof sentinel, written INSIDE the subdir on the mounted
+    # disk. A `local` Kubernetes PV does not check that its path is a real
+    # mountpoint, and these disks mount with `nofail` -- so if a disk fails to
+    # mount, kubelet serves the empty root-fs fallback dir instead, which once
+    # let bitcoind come up with an empty chainstate. A consumer (e.g. the
+    # bitcoind initContainer) asserts this file's presence before using the
+    # path: it exists only when the disk is actually mounted, so its absence
+    # makes the consumer fail loudly instead of silently running on empty data.
+    next unless sub['sentinel']
+
+    sentinel_name = sub['sentinel'].is_a?(String) ? sub['sentinel'] : '.cluster-disk-ok'
+    file ::File.join(sub_path, sentinel_name) do
+      content "cluster-storage mount marker -- managed by Chef (cluster-storage cookbook).\n" \
+              "Presence proves #{mount_point} is mounted; its absence means the disk is not.\n"
+      owner sub['owner'] || 'root'
+      group sub['group'] || 'root'
+      mode '0444'
     end
   end
 end
