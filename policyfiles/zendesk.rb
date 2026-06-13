@@ -85,6 +85,7 @@ cluster_storage_volumes = [
     'mount_point' => '/srv/cluster-ssd',
     'subdirs' => [
       { 'path' => 'bitcoind', 'owner' => 101, 'group' => 101, 'sentinel' => true },
+      { 'path' => 'postgres' },
     ],
   },
   # Bulk HDD #2 (WD WD10EAVS, 1 TB). Node-local dynamic bulk capacity backing the
