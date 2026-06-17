@@ -59,10 +59,15 @@ default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
 
 # crackbook serves no NFS and carries no cluster storage, so drop the NFSv4 rule
 # from the default allow list; keep SSH first plus the k3s flannel/kubelet ports.
+# node-exporter (9100) is needed from the LAN, not just the pod CIDR: Prometheus
+# scrapes the hostNetwork node-exporter at this node's host IP, which flannel
+# masquerades, so the scrape arrives from a 192.168.1.x source rather than a
+# 10.42.x.x pod IP and the allow_from pod-CIDR rule never matches it.
 default['ufw']['allow'] = [
   { 'port' => 22,    'proto' => 'tcp', 'comment' => 'SSH from LAN' },
   { 'port' => 8472,  'proto' => 'udp', 'comment' => 'k3s flannel VXLAN' },
   { 'port' => 10250, 'proto' => 'tcp', 'comment' => 'k3s kubelet' },
+  { 'port' => 9100,  'proto' => 'tcp', 'comment' => 'k3s node-exporter scrape' },
 ]
 
 # Declarative k3s node config. Labels mirror what the agent is joined with

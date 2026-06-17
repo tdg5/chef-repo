@@ -19,5 +19,6 @@ default['ufw']['allow'] = [
   { 'port' => 22,    'proto' => 'tcp', 'comment' => 'SSH from LAN' },
   { 'port' => 8472,  'proto' => 'udp', 'comment' => 'k3s flannel VXLAN' },
   { 'port' => 10250, 'proto' => 'tcp', 'comment' => 'k3s kubelet' },
+  { 'port' => 9100,  'proto' => 'tcp', 'comment' => 'k3s node-exporter scrape' },
   { 'port' => 2049,  'proto' => 'tcp', 'comment' => 'NFSv4 from LAN' },
 ]
