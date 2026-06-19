@@ -124,6 +124,20 @@ default['nfs_server']['exports'] = [
 default['ufw']['forward_policy'] = 'ACCEPT'
 default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
 
+# Override the cookbook default allow list so SSH is reachable from the internet:
+# the router forwards external 61922 -> this host:22, and the forwarded packet
+# keeps the remote client's public source IP, so a LAN-scoped rule would drop it.
+# SSH therefore uses `from => 'any'`; everything else stays LAN-scoped. Password
+# auth is disabled (config::sshd), so this is key-only exposure. NOTE: `from any`
+# also opens port 22 on IPv6 if the host has routable v6.
+default['ufw']['allow'] = [
+  { 'port' => 22,    'proto' => 'tcp', 'from' => 'any', 'comment' => 'SSH (router-forwarded 61922)' },
+  { 'port' => 8472,  'proto' => 'udp', 'comment' => 'k3s flannel VXLAN' },
+  { 'port' => 10250, 'proto' => 'tcp', 'comment' => 'k3s kubelet' },
+  { 'port' => 9100,  'proto' => 'tcp', 'comment' => 'k3s node-exporter scrape' },
+  { 'port' => 2049,  'proto' => 'tcp', 'comment' => 'NFSv4 from LAN' },
+]
+
 # Declarative k3s node config. Labels mirror what the agent was joined with
 # (--node-label); managing them here makes a rebuilt node come up labelled. The
 # server URL + secret token stay in the manually-created service env file.

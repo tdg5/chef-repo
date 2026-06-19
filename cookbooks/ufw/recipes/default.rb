@@ -18,10 +18,15 @@ node['ufw']['allow'].each do |rule|
   port = rule['port']
   proto = rule['proto']
   comment = rule['comment']
+  # Rules default to the LAN CIDR; a rule may set 'from' (e.g. 'any') to widen
+  # its source, used to expose a router-forwarded port to the internet.
+  source = rule['from'] || lan
+  # ufw normalises `from any` to "Anywhere" in `ufw status` output.
+  status_source = source == 'any' ? 'Anywhere' : Regexp.escape(source)
 
-  execute "ufw allow #{port}/#{proto} from #{lan}" do
-    command "ufw allow from #{lan} to any port #{port} proto #{proto} comment '#{comment}'"
-    not_if "ufw status | grep -qE '^#{port}/#{proto}[[:space:]]+ALLOW[[:space:]]+#{Regexp.escape(lan)}'"
+  execute "ufw allow #{port}/#{proto} from #{source}" do
+    command "ufw allow from #{source} to any port #{port} proto #{proto} comment '#{comment}'"
+    not_if "ufw status | grep -qE '^#{port}/#{proto}[[:space:]]+ALLOW[[:space:]]+#{status_source}'"
   end
 end
 
