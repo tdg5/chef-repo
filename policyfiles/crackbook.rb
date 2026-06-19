@@ -28,6 +28,7 @@ run_list(
   'liquidprompt',
   # Host infrastructure.
   'swap::disable',
+  'config::sshd',
   'ufw',
   'kube-prep',
   # Laptop-specific host prep: clamshell lid-ignore, radios off, fan control,

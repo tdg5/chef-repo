@@ -29,6 +29,7 @@ run_list(
   'liquidprompt',
   # Host infrastructure.
   'swap::disable',
+  'config::sshd',
   'ufw',
   'kube-prep',
   'cluster-storage',
