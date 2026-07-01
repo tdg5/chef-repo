@@ -8,9 +8,11 @@ include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-core', path: '.'
 
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
+cookbook 'github-cli', path: '../cookbooks/github-cli'
 
 run_list(
   'azure-cli',
+  'github-cli',
 )
 
 username = 'danny'
