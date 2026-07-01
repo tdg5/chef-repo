@@ -1,1 +1,1 @@
-default['dotnet-core']['packages']['debian'] = ['dotnet-sdk-8.0', 'aspnetcore-runtime-8.0']
+default['dotnet-core']['packages']['debian'] = ['dotnet-sdk-10.0', 'aspnetcore-runtime-10.0']
