@@ -8,10 +8,12 @@ include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-core', path: '.'
 
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
+cookbook 'claude-code', path: '../cookbooks/claude-code'
 cookbook 'github-cli', path: '../cookbooks/github-cli'
 
 run_list(
   'azure-cli',
+  'claude-code',
   'github-cli',
 )
 
