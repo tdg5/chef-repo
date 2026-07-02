@@ -34,7 +34,7 @@ run_list(
   'kube-prep',
   'cluster-storage',
   'nfs-server',
-  'k3s-agent',
+  'k3s-agent'
 )
 
 username = 'tdg5'

@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   apt_repository 'azure-cli' do
     components ['main']
     distribution node['azure-cli']['distribution']

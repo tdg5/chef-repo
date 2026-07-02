@@ -14,7 +14,7 @@ default['crackbook']['usb_nic']['id_product'] = '8153'
 
 # Broadcom Wi-Fi/BT kernel modules we deliberately do NOT use (wired-ethernet-
 # only node) -- blacklisted so they never load.
-default['crackbook']['blacklist_modules'] = %w[ brcmfmac brcmfmac_wcc b43 wl btusb ]
+default['crackbook']['blacklist_modules'] = %w( brcmfmac brcmfmac_wcc b43 wl btusb )
 
 # consoleblank timeout (seconds) appended to the kernel cmdline; blanks the
 # internal panel since the box runs clamshell (lid closed).

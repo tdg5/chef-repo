@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   apt_repository_version = node['kubectl']['apt_repository_version']
   apt_repository 'kubectl' do
     distribution '/'

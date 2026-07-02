@@ -13,14 +13,8 @@ end
 
 version = node['minikube']['version']
 
-download_url = (
-  node['minikube']['download_url'] ||
-  node['minikube']['download_url_template'] % {
-    architecture: node['minikube']['architecture'],
-    operating_system: node['minikube']['operating_system'],
-    version: version,
-  }
-)
+download_url = node['minikube']['download_url'] ||
+               format(node['minikube']['download_url_template'], architecture: node['minikube']['architecture'], operating_system: node['minikube']['operating_system'], version: version)
 
 # Fetch the desired minikube version and put in install path
 remote_file 'minikube' do

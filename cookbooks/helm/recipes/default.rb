@@ -7,7 +7,7 @@ install_group = node['helm']['install']['group']
 install_prefix = node['helm']['install']['prefix']
 install_username = node['helm']['install']['username']
 
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   # Prepare install path
   directory 'helm_install_prefix' do
     group install_group
@@ -19,14 +19,8 @@ if node['platform_family'] == 'debian'
 
   version = node['helm']['version']
 
-  download_url = (
-    node['helm']['download_url'] ||
-    node['helm']['download_url_template'] % {
-      architecture: node['helm']['architecture'],
-      operating_system: node['helm']['operating_system'],
-      version: version,
-    }
-  )
+  download_url = node['helm']['download_url'] ||
+                 format(node['helm']['download_url_template'], architecture: node['helm']['architecture'], operating_system: node['helm']['operating_system'], version: version)
 
   tmp_path = node['helm']['tmp_path']
   version_name = "helm-#{version}"
@@ -94,6 +88,6 @@ if node['platform_family'] == 'debian'
     action :nothing
     path archive_file_path
   end
-elsif node['platform'] == 'mac_os_x'
+elsif platform?('mac_os_x')
   package 'helm'
 end

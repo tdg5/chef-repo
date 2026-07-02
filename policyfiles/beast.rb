@@ -11,7 +11,7 @@ cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 
 run_list(
   'azure-cli',
-  'noop',
+  'noop'
 )
 
 username = 'tdg5'

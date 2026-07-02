@@ -13,7 +13,7 @@
 # Instead we ship the signing key with the cookbook, dearmor it ourselves into
 # the plain binary keyring apt expects, and point the repo at that file. No
 # launchpad.net API call, and a deterministic key format.
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   keyring     = '/etc/apt/keyrings/deadsnakes.gpg'
   armored_key = '/etc/apt/keyrings/deadsnakes.asc'
 

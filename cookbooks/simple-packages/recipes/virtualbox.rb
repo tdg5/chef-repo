@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   packages = [
     "linux-headers-#{node['kernel']['release']}",
     'dkms',

@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   include_recipe 'python::deadsnakes'
 
   # Guard against apt's regex fallback. `apt-get install python3.9` treats the
@@ -26,6 +26,6 @@ if node['platform_family'] == 'debian'
     package "python#{version}-dev"
     package "python#{version}-venv"
   end
-elsif node['platform'] == 'mac_os_x'
+elsif platform?('mac_os_x')
   node['python']['versions'].each { |version| package "python@#{version}" }
 end

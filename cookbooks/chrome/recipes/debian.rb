@@ -1,4 +1,6 @@
-remote_file '/tmp/google-chrome-stable_current_amd64.deb' do
+deb_path = ::File.join(Chef::Config['file_cache_path'], 'google-chrome-stable_current_amd64.deb')
+
+remote_file deb_path do
   backup false
   notifies :install, 'dpkg_package[google-chrome]'
   source 'https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb'
@@ -7,7 +9,7 @@ end
 
 dpkg_package 'google-chrome' do
   action :nothing
-  source '/tmp/google-chrome-stable_current_amd64.deb'
+  source deb_path
 end
 
 root_user = node['root_user']['username']

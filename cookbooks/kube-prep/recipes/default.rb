@@ -35,10 +35,14 @@ file sysctl_conf do
   notifies :run, 'execute[apply kube sysctls]', :immediately
 end
 
+# rubocop:disable Chef/Modernize/ExecuteSysctl -- the core `sysctl` resource is
+# deliberately avoided here; see the comment above (its `sysctl -p` step fails
+# on Ubuntu 26.04, which has no /etc/sysctl.conf).
 execute 'apply kube sysctls' do
   command "sysctl -p #{sysctl_conf}"
   action :nothing
 end
+# rubocop:enable Chef/Modernize/ExecuteSysctl
 
 # Remove legacy per-key drop-ins written by the core `sysctl` resource on
 # earlier runs, so each key lives in exactly one file (idempotent no-op once

@@ -13,14 +13,8 @@ end
 
 version = node['argocd']['version']
 
-download_url = (
-  node['argocd']['download_url'] ||
-  node['argocd']['download_url_template'] % {
-    architecture: node['argocd']['architecture'],
-    operating_system: node['argocd']['operating_system'],
-    version: version,
-  }
-)
+download_url = node['argocd']['download_url'] ||
+               format(node['argocd']['download_url_template'], architecture: node['argocd']['architecture'], operating_system: node['argocd']['operating_system'], version: version)
 
 # Fetch the desired argocd version and put in install path
 remote_file 'argocd' do

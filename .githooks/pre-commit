@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# Cookstyle pre-commit hook. Lints the staged Ruby sources so style issues are
+# caught before they reach CI (.github/workflows/cookstyle.yml), which lints the
+# whole repo. Install with `bin/install-git-hooks.sh`; bypass with
+# `git commit --no-verify` when necessary.
+
+set -e -o pipefail
+
+# From https://stackoverflow.com/a/4774063
+REPO_DIR="$( cd -- "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
+
+STAGED_RUBY_FILES=$(
+  git diff --cached --name-only --diff-filter=ACM | grep -E '\.rb$' || true
+)
+
+if [ -z "$STAGED_RUBY_FILES" ]; then
+  exit 0
+fi
+
+if ! command -v cookstyle >/dev/null 2>&1; then
+  echo 'cookstyle not found on PATH; install Cinc/Chef Workstation or run' 1>&2
+  echo "'gem install cookstyle'. Skipping the pre-commit lint." 1>&2
+  exit 0
+fi
+
+echo 'Running cookstyle on staged Ruby files...'
+cd "$REPO_DIR"
+# --force-exclusion honors the AllCops/Exclude list even when files are passed
+# explicitly. Word-splitting is intended here to pass one arg per file.
+# shellcheck disable=SC2086
+cookstyle --force-exclusion --display-cop-names $STAGED_RUBY_FILES

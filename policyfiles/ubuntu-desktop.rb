@@ -21,5 +21,5 @@ run_list(
   'chrome',
   'config::mime_applications',
   'simple-packages::dropbox',
-  'spotify',
+  'spotify'
 )

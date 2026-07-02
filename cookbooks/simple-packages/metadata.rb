@@ -3,27 +3,8 @@ maintainer 'Danny Guinther'
 maintainer_email 'dannyguinther@gmail.com'
 license 'MIT'
 description 'Installs various simple packages'
-long_description 'Installs various simple packages'
 version '0.0.1'
 
 depends 'apt'
 
-recipe 'simple-packages', 'Noop'
-recipe 'simple-packages::cmake', 'Installs cmake package'
-recipe 'simple-packages::curl', 'Installs curl package'
-recipe 'simple-packages::dropbox', 'Installs dropbox package'
-recipe 'simple-packages::firefox', 'Installs firefox package'
-recipe 'simple-packages::git-lfs', 'Installs git-lfs package'
-recipe 'simple-packages::htop', 'Installs htop package'
-recipe 'simple-packages::jq', 'Installs jq package'
-recipe 'simple-packages::libvirt-qemu', 'Installs packages related to running libvirt and qemu'
-recipe 'simple-packages::multipass', 'Installs multipass package'
-recipe 'simple-packages::net-tools', 'Installs net-tools package'
-recipe 'simple-packages::tmux', 'Installs tmux package'
-recipe 'simple-packages::tree', 'Installs tree package'
-recipe 'simple-packages::virtualbox', 'Installs packages related to running virtualbox'
-recipe 'simple-packages::vlc', 'Installs vlc package'
-recipe 'simple-packages::wmctrl', 'Installs wmctrl package'
-recipe 'simple-packages::xsel', 'Installs xsel package'
-
-%w[ debian mac_os_x ubuntu ].each { |os| supports os }
+%w( debian mac_os_x ubuntu ).each { |os| supports os }

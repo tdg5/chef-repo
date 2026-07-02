@@ -1,0 +1,25 @@
+name: Cookstyle
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  cookstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      # Pinned to the Cookstyle bundled with the Cinc Workstation used locally
+      # (26.1.0 -> Cookstyle 8.6.10) so CI and developer machines agree on the
+      # exact set of cops and their behavior.
+      - name: Install Cookstyle
+        run: gem install cookstyle -v 8.6.10
+
+      - name: Run Cookstyle
+        run: cookstyle --display-cop-names

@@ -54,7 +54,7 @@ end
 # fans. mbpfan acts on the Intel CPU temps from `coretemp`; `applesmc` exposes
 # the Apple SMC fans and board sensors. lm-sensors provides the `sensors` CLI
 # for spot checks. Load both modules on boot and now.
-sensor_modules = %w[ coretemp applesmc ]
+sensor_modules = %w( coretemp applesmc )
 
 file '/etc/modules-load.d/crackbook-sensors.conf' do
   content "# Managed by Chef (node-specific::crackbook).\n" +
@@ -76,7 +76,7 @@ sensor_modules.each do |mod|
   end
 end
 
-package %w[ lm-sensors mbpfan ]
+package %w( lm-sensors mbpfan )
 
 service 'mbpfan' do
   action [:enable, :start]

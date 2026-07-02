@@ -35,7 +35,7 @@ run_list(
   # powertop/governor/backlight tuning, USB-NIC autosuspend exemption. See
   # plan-2016-macbook-to-k8s.md Phase 2 (in the infrastructure repo).
   'node-specific::crackbook',
-  'k3s-agent',
+  'k3s-agent'
 )
 
 username = 'tdg5'

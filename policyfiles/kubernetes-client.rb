@@ -17,5 +17,5 @@ run_list(
   'sops',
   'ksops',
   'argocd',
-  'minikube',
+  'minikube'
 )

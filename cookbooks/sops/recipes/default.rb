@@ -13,14 +13,8 @@ end
 
 version = node['sops']['version']
 
-download_url = (
-  node['sops']['download_url'] ||
-  node['sops']['download_url_template'] % {
-    architecture: node['sops']['architecture'],
-    operating_system: node['sops']['operating_system'],
-    version: version,
-  }
-)
+download_url = node['sops']['download_url'] ||
+               format(node['sops']['download_url_template'], architecture: node['sops']['architecture'], operating_system: node['sops']['operating_system'], version: version)
 
 # Fetch the desired sops version and put in install path
 remote_file 'sops' do

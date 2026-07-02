@@ -14,7 +14,7 @@ cookbook 'github-cli', path: '../cookbooks/github-cli'
 run_list(
   'azure-cli',
   'claude-code',
-  'github-cli',
+  'github-cli'
 )
 
 username = 'danny'

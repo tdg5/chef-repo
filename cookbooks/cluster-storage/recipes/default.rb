@@ -13,7 +13,7 @@ volumes = node['cluster_storage']['volumes']
 defaults = node['cluster_storage']['defaults']
 
 # sgdisk (gdisk) + partprobe (parted) drive partition creation; install once.
-package %w[ gdisk parted ] unless volumes.empty?
+package %w( gdisk parted ) unless volumes.empty?
 
 volumes.each do |vol|
   by_id       = vol['by_id']

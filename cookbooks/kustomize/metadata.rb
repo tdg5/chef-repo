@@ -3,9 +3,6 @@ maintainer 'Danny Guinther'
 maintainer_email  'dannyguinther@gmail.com'
 license           'MIT'
 description       'Install pre-compiled kustomize binary'
-long_description  'Install pre-compiled kustomize binary'
 version           '0.0.1'
 
-recipe 'kustomize', 'Install pre-compiled kustomize binary'
-
-%w[ darwin debian ubuntu ].each { |os| supports os }
+%w( mac_os_x debian ubuntu ).each { |os| supports os }

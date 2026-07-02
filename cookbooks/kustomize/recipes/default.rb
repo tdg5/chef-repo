@@ -15,14 +15,8 @@ end
 
 version = node['kustomize']['version']
 
-download_url = (
-  node['kustomize']['download_url'] ||
-  node['kustomize']['download_url_template'] % {
-    architecture: node['kustomize']['architecture'],
-    operating_system: node['kustomize']['operating_system'],
-    version: version,
-  }
-)
+download_url = node['kustomize']['download_url'] ||
+               format(node['kustomize']['download_url_template'], architecture: node['kustomize']['architecture'], operating_system: node['kustomize']['operating_system'], version: version)
 
 tmp_path = node['kustomize']['tmp_path']
 version_name = "kustomize-#{version}"
@@ -37,7 +31,7 @@ version_binary_path = ::File.join(install_prefix, version_name)
 # Fetch archive containing desired kustomize version
 remote_file 'kustomize_version_archive' do
   action :create
-  not_if { ::File.exists?(version_binary_path) }
+  not_if { ::File.exist?(version_binary_path) }
   path archive_file_path
   source download_url
 end
@@ -48,7 +42,7 @@ archive_destination_path = ::File.join(tmp_path, version_name)
 archive_file 'kustomize_version_payload' do
   destination archive_destination_path
   mode '0755'
-  not_if { ::File.exists?(version_binary_path) }
+  not_if { ::File.exist?(version_binary_path) }
   path archive_file_path
 end
 
@@ -57,7 +51,7 @@ remote_file 'kustomize_version_copy' do
   action :create_if_missing
   group install_group
   mode '0755'
-  not_if { ::File.exists?(version_binary_path) }
+  not_if { ::File.exist?(version_binary_path) }
   notifies :delete, 'directory[kustomize_version_payload]', :immediately
   notifies :delete, 'file[kustomize_version_archive]', :immediately
   path version_binary_path

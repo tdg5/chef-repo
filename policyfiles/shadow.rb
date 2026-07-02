@@ -11,7 +11,7 @@ cookbook 'snowflake-snowsql', path: '../cookbooks/snowflake-snowsql'
 
 run_list(
   'azure-cli',
-  'snowflake-snowsql',
+  'snowflake-snowsql'
 )
 
 username = 'danny'

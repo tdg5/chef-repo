@@ -18,7 +18,7 @@ end
 config = node['k3s_agent']['config'].to_hash
 
 file '/etc/rancher/k3s/config.yaml' do
-  content config.to_yaml
+  content YAML.dump(config)
   mode '0644'
   owner 'root'
   group 'root'

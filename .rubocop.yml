@@ -1,0 +1,12 @@
+# Cookstyle configuration. Cookstyle bundles RuboCop with Chef Infra cops and
+# is the linter for this repo. Run it locally with `bin/lint.sh` (or just
+# `cookstyle`); it is enforced in CI (.github/workflows/cookstyle.yml) and via
+# the optional pre-commit hook installed by `bin/install-git-hooks.sh`.
+AllCops:
+  TargetRubyVersion: 3.1
+  # Generated / non-source trees. Lockfiles and exports are gitignored (and thus
+  # skipped automatically), but listing them keeps local runs deterministic even
+  # when those directories are present.
+  Exclude:
+    - '.cache/**/*'
+    - 'nodes/**/*'

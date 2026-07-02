@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   architecture = node['kernel']['machine']
   qemu_package = (
     if architecture == 'x86_64'

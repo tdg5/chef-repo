@@ -10,7 +10,7 @@ include_policy 'dotnet-core', path: '.'
 cookbook 'noop', path: '../cookbooks/noop'
 
 run_list(
-  'noop',
+  'noop'
 )
 
 username = 'tdg5'

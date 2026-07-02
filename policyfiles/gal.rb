@@ -9,7 +9,7 @@ include_policy 'kubernetes-client', path: '.'
 cookbook 'node-specific', path: '../cookbooks/node-specific'
 
 run_list(
-  'node-specific::gal',
+  'node-specific::gal'
 )
 
 username = 'tdg5'

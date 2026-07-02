@@ -1,4 +1,4 @@
-if node['platform_family'] == 'debian'
+if platform_family?('debian')
   apt_repository 'spotify' do
     components ['non-free']
     distribution 'stable'
@@ -6,7 +6,7 @@ if node['platform_family'] == 'debian'
     uri 'http://repository.spotify.com'
   end
   package 'spotify-client'
-elsif node['platform'] == 'mac_os_x'
+elsif platform?('mac_os_x')
   homebrew_cask 'spotify' do
     install_cask false
   end
