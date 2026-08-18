@@ -1,35 +1,35 @@
 #cloud-config
 #
-# cloud-init config for the `shade` host (a multipass Ubuntu VM).
+# cloud-init config for the `beastie` host (a multipass Ubuntu VM).
 #
-# Purpose: bootstrap the `danny` user + `danny` primary group that the Chef
+# Purpose: bootstrap the `tdg5` user + `tdg5` primary group that the Chef
 # policyfiles assume already exist. Every cookbook consumes node['user']
-# (home /home/danny, group danny) but none of them CREATE the user, and
-# bin/init-ubuntu.sh keys off $SUDO_USER -- so danny must exist before Chef
+# (home /home/tdg5, group tdg5) but none of them CREATE the user, and
+# bin/init-ubuntu.sh keys off $SUDO_USER -- so tdg5 must exist before Chef
 # runs. This file stands that user up with passwordless sudo and an SSH key
 # so you can log straight in and run bin/init-ubuntu.sh.
 #
 # Launch:
-#   multipass launch --name shade --cloud-init cloud-init/shade.yaml 26.04
+#   multipass launch --name beastie --cloud-init cloud-init/beastie.yaml 26.04
 #
 # Then:
-#   multipass shell shade            # lands you as danny
+#   multipass shell beastie            # lands you as tdg5
 #   sudo ~/src/chef-repo/bin/init-ubuntu.sh
 
-hostname: shade
+hostname: beastie
 
 users:
-  # keep cloud-init's platform default user handling, then add danny
+  # keep cloud-init's platform default user handling, then add tdg5
   - default
-  - name: danny
+  - name: tdg5
     gecos: Danny Guinther
-    primary_group: danny        # creates the `danny` group (matches shade.rb: group = username)
+    primary_group: tdg5         # creates the `tdg5` group (matches beastie.rb: group = username)
     groups: [sudo]
     shell: /bin/bash
     sudo: "ALL=(ALL) NOPASSWD:ALL"   # mirrors the sudoers.d entry bin/init-ubuntu.sh writes
     lock_passwd: true                # SSH-key login only; no password
     ssh_authorized_keys:
-      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGGrSzMFkR9nxwFQJI48rYveYp9mRnly9/bt5eVJESAL danny@phave.com
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIClkO02+h969BqhRq0aQJNC20FU/e+Tet0UClwRFpHyT dannyguinther@gmail.com
 
 # Refresh apt metadata so the first `apt-get install` in bin/init-ubuntu.sh
 # (build-essential, curl, git) resolves cleanly. init-ubuntu.sh installs the
