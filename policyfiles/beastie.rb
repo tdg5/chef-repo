@@ -4,6 +4,7 @@ default_source :supermarket
 
 include_policy 'ubuntu-base', path: '.'
 include_policy 'multipass-vm', path: '.'
+include_policy 'golang', path: '.'
 
 cookbook 'claude-code', path: '../cookbooks/claude-code'
 cookbook 'github-cli', path: '../cookbooks/github-cli'
