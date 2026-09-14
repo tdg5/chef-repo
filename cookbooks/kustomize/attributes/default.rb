@@ -24,4 +24,6 @@ default['kustomize']['operating_system'] = node['os']
 
 default['kustomize']['tmp_path'] = Chef::Config['file_cache_path']
 
-default['kustomize']['version'] = '5.4.1'
+# 5.8.1 is the first release that handles the breaking changes helm 4
+# introduced, so the helm chart inflator works again (kubernetes-sigs/kustomize#6016).
+default['kustomize']['version'] = '5.8.1'
