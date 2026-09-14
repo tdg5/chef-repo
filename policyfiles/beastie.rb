@@ -8,10 +8,16 @@ include_policy 'golang', path: '.'
 
 cookbook 'claude-code', path: '../cookbooks/claude-code'
 cookbook 'github-cli', path: '../cookbooks/github-cli'
+cookbook 'helm', path: '../cookbooks/helm'
+cookbook 'kubectl', path: '../cookbooks/kubectl'
+cookbook 'kustomize', path: '../cookbooks/kustomize'
 
 run_list(
   'claude-code',
-  'github-cli'
+  'github-cli',
+  'kubectl',
+  'kustomize',
+  'helm'
 )
 
 username = 'tdg5'
