@@ -58,11 +58,11 @@ default['root_user'] = {
 # safe no-op. Held in a local so the k3s-agent required_mounts list below can be
 # derived from the same source of truth.
 cluster_storage_volumes = [
-  # 4 TB bulk HDD (Seagate ST4000DM000), relocated from proxima. Split into an
-  # exported NFS subtree and node-local siblings; only 'nfs' is served over NFS.
-  # 'bitcoind' holds the node's block data (the container entrypoint chowns it,
-  # so root-owned is fine). 'sentinel' writes a mount-proof marker the bitcoind
-  # initContainer checks before starting (guards against a nofail unmount).
+  # 4 TB bulk HDD (Seagate ST4000DM000), relocated from proxima. Only the 'nfs'
+  # subtree is served over NFS; anything else on the disk stays node-local.
+  # (bitcoind's block-data sibling was retired with bitcoind on 2026-09-21; the
+  # cookbook never deletes a subdir, so its removal from here was paired with a
+  # manual wipe.)
   {
     'by_id' => 'ata-ST4000DM000-1F2168_W3002BF7',
     'uuid' => '0adb1308-714a-4af6-980a-e7b7f22df022',
@@ -70,22 +70,18 @@ cluster_storage_volumes = [
     'mount_point' => '/srv/cluster-storage',
     'subdirs' => [
       { 'path' => 'nfs' },
-      { 'path' => 'bitcoind', 'sentinel' => true },
     ],
   },
-  # SSD tier (OCZ Vertex 3, 80 GB). Fast random-IO storage; holds bitcoind's
-  # chainstate (UTXO LevelDB) at /srv/cluster-ssd/bitcoind, overlaid into the pod
-  # at /data/chainstate. Owned 101:101 to match the bitcoind container user — the
-  # chainstate dir is the volume's mount target, not chowned by the entrypoint.
-  # 'sentinel' writes a mount-proof marker the bitcoind initContainer checks; this
-  # is the disk that came up unmounted once and left the chainstate empty.
+  # SSD tier (OCZ Vertex 3, 80 GB). Fast random-IO storage for the shared
+  # Postgres instance. (It also held bitcoind's chainstate until bitcoind was
+  # retired on 2026-09-21 — this is the disk that once came up unmounted and left
+  # that chainstate empty, which is what the k3s-agent mount guard below is for.)
   {
     'by_id' => 'ata-OCZ-VERTEX3_OCZ-Z1NV0AX5ZHN6VSSL',
     'uuid' => '120e6ace-5016-404d-9f61-79b1fd0efc66',
     'label' => 'cluster-ssd',
     'mount_point' => '/srv/cluster-ssd',
     'subdirs' => [
-      { 'path' => 'bitcoind', 'owner' => 101, 'group' => 101, 'sentinel' => true },
       { 'path' => 'postgres' },
     ],
   },
