@@ -64,11 +64,16 @@ default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
 # scrapes the hostNetwork node-exporter at this node's host IP, which flannel
 # masquerades, so the scrape arrives from a 192.168.1.x source rather than a
 # 10.42.x.x pod IP and the allow_from pod-CIDR rule never matches it.
+# MetalLB's hostNetwork speakers gossip over memberlist on 7946 between node
+# IPs: UDP for probes, TCP for joins and push/pull state sync. Both must be
+# open from the LAN or the other speakers' push/pull to this node times out.
 default['ufw']['allow'] = [
   { 'port' => 22,    'proto' => 'tcp', 'comment' => 'SSH from LAN' },
   { 'port' => 8472,  'proto' => 'udp', 'comment' => 'k3s flannel VXLAN' },
   { 'port' => 10250, 'proto' => 'tcp', 'comment' => 'k3s kubelet' },
   { 'port' => 9100,  'proto' => 'tcp', 'comment' => 'k3s node-exporter scrape' },
+  { 'port' => 7946,  'proto' => 'tcp', 'comment' => 'MetalLB memberlist' },
+  { 'port' => 7946,  'proto' => 'udp', 'comment' => 'MetalLB memberlist' },
 ]
 
 # Declarative k3s node config. Labels mirror what the agent is joined with
@@ -78,7 +83,14 @@ default['ufw']['allow'] = [
 # prefer beefier nodes (zendesk = node-tier=primary). No required_mounts:
 # crackbook carries no cluster storage. To steer heavy pods away entirely, add
 # 'node-taint' => ['node-tier=light:PreferNoSchedule'] here.
+# `node-ip` pins the node to its LAN IPv4 (192.168.1.124; must stay stable, i.e.
+# a router DHCP reservation), as server/agent-1 do with --node-ip. Unset, k3s
+# also auto-detects the host's DHCPv6 address as a secondary node IP; the
+# cluster is IPv4-only, and once that v6 lease rotates the kubelet errors on
+# every status sync ("failed to validate secondaryNodeIP"). Changing this
+# restarts k3s-agent on converge (running pods survive: KillMode=process).
 default['k3s_agent']['config'] = {
+  'node-ip' => '192.168.1.124',
   'node-label' => ['node-tier=light'],
 }
 

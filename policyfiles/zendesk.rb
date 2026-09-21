@@ -129,19 +129,29 @@ default['ufw']['allow_from'] = ['10.42.0.0/16', '10.43.0.0/16']
 # keeps the remote client's public source IP, so a LAN-scoped rule would drop it.
 # SSH therefore uses `from => 'any'`; everything else stays LAN-scoped. Password
 # auth is disabled (config::sshd), so this is key-only exposure. NOTE: `from any`
-# also opens port 22 on IPv6 if the host has routable v6.
+# also opens port 22 on IPv6 if the host has routable v6. MetalLB's speakers
+# gossip over memberlist on 7946 (UDP probes, TCP push/pull), LAN-scoped.
 default['ufw']['allow'] = [
   { 'port' => 22,    'proto' => 'tcp', 'from' => 'any', 'comment' => 'SSH (router-forwarded 61922)' },
   { 'port' => 8472,  'proto' => 'udp', 'comment' => 'k3s flannel VXLAN' },
   { 'port' => 10250, 'proto' => 'tcp', 'comment' => 'k3s kubelet' },
   { 'port' => 9100,  'proto' => 'tcp', 'comment' => 'k3s node-exporter scrape' },
+  { 'port' => 7946,  'proto' => 'tcp', 'comment' => 'MetalLB memberlist' },
+  { 'port' => 7946,  'proto' => 'udp', 'comment' => 'MetalLB memberlist' },
   { 'port' => 2049,  'proto' => 'tcp', 'comment' => 'NFSv4 from LAN' },
 ]
 
 # Declarative k3s node config. Labels mirror what the agent was joined with
 # (--node-label); managing them here makes a rebuilt node come up labelled. The
 # server URL + secret token stay in the manually-created service env file.
+# `node-ip` pins the node to its LAN IPv4 (192.168.1.119; must stay stable, i.e.
+# a router DHCP reservation), as server/agent-1 do with --node-ip. Unset, k3s
+# also auto-detects the host's DHCPv6 address as a secondary node IP; the
+# cluster is IPv4-only, and once that v6 lease rotates the kubelet errors on
+# every status sync ("failed to validate secondaryNodeIP"). Changing this
+# restarts k3s-agent on converge (running pods survive: KillMode=process).
 default['k3s_agent']['config'] = {
+  'node-ip' => '192.168.1.119',
   'node-label' => ['node-tier=primary', 'storage-node=true'],
 }
 
