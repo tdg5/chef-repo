@@ -1,6 +1,12 @@
-# Manage the k3s agent's declarative node config. The install itself and the
+# Manage the k3s agent's declarative node config. The initial install and the
 # secret node-token stay manual (see plan-zendesk-to-k8s.md Phase 3); this
 # cookbook only owns the reproducible, non-secret config + service state.
+#
+# The k3s VERSION -- the /usr/local/bin/k3s binary -- is deliberately NOT managed
+# here. Upgrades are GitOps-driven by system-upgrade-controller in the
+# infrastructure repo (kubernetes/services/system-upgrade-controller), which
+# swaps the binary in place on every cerberus node and restarts k3s. Don't add
+# binary management to this cookbook: the two would fight over the same file.
 #
 # Note: node labels in config.yaml are applied by the kubelet at registration.
 # Editing them here on an already-registered node won't relabel it (use
