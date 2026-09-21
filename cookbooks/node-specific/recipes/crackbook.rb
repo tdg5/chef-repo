@@ -2,7 +2,7 @@
 # (MacBookPro13,1) run headless, clamshell (lid closed), AC-powered, as a
 # light/best-effort k3s agent on cerberus. This is the idempotent form of
 # plan-2016-macbook-to-k8s.md "Phase 2 -- Host prep". The k3s join + node-token
-# stay manual; the k3s-agent cookbook owns only the declarative node config.
+# stay manual; the k3s cookbook owns only the declarative node config.
 
 root_username = node['root_user']['username']
 root_group = node['root_user']['group']

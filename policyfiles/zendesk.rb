@@ -6,7 +6,7 @@ cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'cluster-storage', path: '../cookbooks/cluster-storage'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
-cookbook 'k3s-agent', path: '../cookbooks/k3s-agent'
+cookbook 'k3s', path: '../cookbooks/k3s'
 cookbook 'kube-prep', path: '../cookbooks/kube-prep'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'nfs-server', path: '../cookbooks/nfs-server'
@@ -34,7 +34,7 @@ run_list(
   'kube-prep',
   'cluster-storage',
   'nfs-server',
-  'k3s-agent'
+  'k3s::agent'
 )
 
 username = 'tdg5'
@@ -55,7 +55,7 @@ default['root_user'] = {
 # Storage disks on zendesk, consumed by the cluster-storage cookbook. Each is a
 # single-GPT-partition ext4 volume mounted by UUID (defaults,nofail). The
 # partition/format steps are guarded, so listing an already-provisioned disk is a
-# safe no-op. Held in a local so the k3s-agent required_mounts list below can be
+# safe no-op. Held in a local so the k3s required_mounts list below can be
 # derived from the same source of truth.
 cluster_storage_volumes = [
   # 4 TB bulk HDD (Seagate ST4000DM000), relocated from proxima. Only the 'nfs'
@@ -75,7 +75,7 @@ cluster_storage_volumes = [
   # SSD tier (OCZ Vertex 3, 80 GB). Fast random-IO storage for the shared
   # Postgres instance. (It also held bitcoind's chainstate until bitcoind was
   # retired on 2026-09-21 — this is the disk that once came up unmounted and left
-  # that chainstate empty, which is what the k3s-agent mount guard below is for.)
+  # that chainstate empty, which is what the k3s mount guard below is for.)
   {
     'by_id' => 'ata-OCZ-VERTEX3_OCZ-Z1NV0AX5ZHN6VSSL',
     'uuid' => '120e6ace-5016-404d-9f61-79b1fd0efc66',
@@ -141,12 +141,12 @@ default['ufw']['allow'] = [
 # (--node-label); managing them here makes a rebuilt node come up labelled. The
 # server URL + secret token stay in the manually-created service env file.
 # `node-ip` pins the node to its LAN IPv4 (192.168.1.119; must stay stable, i.e.
-# a router DHCP reservation), as server/agent-1 do with --node-ip. Unset, k3s
-# also auto-detects the host's DHCPv6 address as a secondary node IP; the
-# cluster is IPv4-only, and once that v6 lease rotates the kubelet errors on
-# every status sync ("failed to validate secondaryNodeIP"). Changing this
-# restarts k3s-agent on converge (running pods survive: KillMode=process).
-default['k3s_agent']['config'] = {
+# a router DHCP reservation), as every cerberus node does. Unset, k3s also
+# auto-detects the host's DHCPv6 address as a secondary node IP; the cluster is
+# IPv4-only, and once that v6 lease rotates the kubelet errors on every status
+# sync ("failed to validate secondaryNodeIP"). Changing this restarts
+# k3s-agent on converge (running pods survive: KillMode=process).
+default['k3s']['config'] = {
   'node-ip' => '192.168.1.119',
   'node-label' => ['node-tier=primary', 'storage-node=true'],
 }
@@ -156,7 +156,7 @@ default['k3s_agent']['config'] = {
 # fallback dir when a `nofail` disk failed to mount (the failure mode that once
 # wiped bitcoind's chainstate). Rendered as RequiresMountsFor in a systemd
 # drop-in; `nofail` still keeps the box booting/reachable if a disk is missing.
-default['k3s_agent']['required_mounts'] =
+default['k3s']['required_mounts'] =
   cluster_storage_volumes.map { |vol| vol['mount_point'] }
 
 # Files sourced from the generated ~/.bashrc. The template guards each with

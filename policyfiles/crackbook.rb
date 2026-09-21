@@ -5,7 +5,7 @@ default_source :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
-cookbook 'k3s-agent', path: '../cookbooks/k3s-agent'
+cookbook 'k3s', path: '../cookbooks/k3s'
 cookbook 'kube-prep', path: '../cookbooks/kube-prep'
 cookbook 'liquidprompt', path: '../cookbooks/liquidprompt'
 cookbook 'node-specific', path: '../cookbooks/node-specific'
@@ -35,7 +35,7 @@ run_list(
   # powertop/governor/backlight tuning, USB-NIC autosuspend exemption. See
   # plan-2016-macbook-to-k8s.md Phase 2 (in the infrastructure repo).
   'node-specific::crackbook',
-  'k3s-agent'
+  'k3s::agent'
 )
 
 username = 'tdg5'
@@ -84,12 +84,12 @@ default['ufw']['allow'] = [
 # crackbook carries no cluster storage. To steer heavy pods away entirely, add
 # 'node-taint' => ['node-tier=light:PreferNoSchedule'] here.
 # `node-ip` pins the node to its LAN IPv4 (192.168.1.124; must stay stable, i.e.
-# a router DHCP reservation), as server/agent-1 do with --node-ip. Unset, k3s
-# also auto-detects the host's DHCPv6 address as a secondary node IP; the
-# cluster is IPv4-only, and once that v6 lease rotates the kubelet errors on
-# every status sync ("failed to validate secondaryNodeIP"). Changing this
-# restarts k3s-agent on converge (running pods survive: KillMode=process).
-default['k3s_agent']['config'] = {
+# a router DHCP reservation), as every cerberus node does. Unset, k3s also
+# auto-detects the host's DHCPv6 address as a secondary node IP; the cluster is
+# IPv4-only, and once that v6 lease rotates the kubelet errors on every status
+# sync ("failed to validate secondaryNodeIP"). Changing this restarts
+# k3s-agent on converge (running pods survive: KillMode=process).
+default['k3s']['config'] = {
   'node-ip' => '192.168.1.124',
   'node-label' => ['node-tier=light'],
 }
