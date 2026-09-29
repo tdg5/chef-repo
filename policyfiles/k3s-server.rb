@@ -4,6 +4,7 @@ default_source :supermarket
 
 cookbook 'k3s', path: '../cookbooks/k3s'
 cookbook 'kube-prep', path: '../cookbooks/kube-prep'
+cookbook 'policy-routing', path: '../cookbooks/policy-routing'
 cookbook 'swap', path: '../cookbooks/swap'
 
 # The cerberus control-plane node: a Vagrant/libvirt VM (hostname `server`)
@@ -14,6 +15,7 @@ cookbook 'swap', path: '../cookbooks/swap'
 run_list(
   'swap::disable',
   'kube-prep',
+  'policy-routing',
   'k3s::server'
 )
 
@@ -51,4 +53,15 @@ default['k3s']['config'] = {
   'node-taint' => ['node-role.kubernetes.io/control-plane:NoSchedule'],
   'tls-san' => ['192.168.1.200'],
   'write-kubeconfig-mode' => '644',
+}
+
+# Answer connections that arrive on the bridged LAN NIC back through it and the
+# router, not via the main table's default route (Vagrant's eth0 / libvirt NAT,
+# which Vagrant needs and so keeps). Without this, an internet client reaching a
+# MetalLB IP announced from this node (the router forwards WAN :443 to one) gets
+# its SYN-ACK sent out eth0 and never completes the handshake.
+default['policy_routing'] = {
+  'addresses' => ['192.168.1.200'],
+  'gateway' => '192.168.1.1',
+  'interface' => 'eth1',
 }

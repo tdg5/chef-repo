@@ -4,6 +4,7 @@ default_source :supermarket
 
 cookbook 'k3s', path: '../cookbooks/k3s'
 cookbook 'kube-prep', path: '../cookbooks/kube-prep'
+cookbook 'policy-routing', path: '../cookbooks/policy-routing'
 cookbook 'swap', path: '../cookbooks/swap'
 
 # A cerberus worker: a Vagrant/libvirt VM (hostname `agent-1`) created by the
@@ -14,6 +15,7 @@ cookbook 'swap', path: '../cookbooks/swap'
 run_list(
   'swap::disable',
   'kube-prep',
+  'policy-routing',
   'k3s::agent'
 )
 
@@ -28,4 +30,15 @@ run_list(
 default['k3s']['config'] = {
   'flannel-iface' => 'eth1',
   'node-ip' => '192.168.1.201',
+}
+
+# Answer connections that arrive on the bridged LAN NIC back through it and the
+# router, not via the main table's default route (Vagrant's eth0 / libvirt NAT,
+# which Vagrant needs and so keeps). Without this, an internet client reaching a
+# MetalLB IP announced from this node (the router forwards WAN :443 to one) gets
+# its SYN-ACK sent out eth0 and never completes the handshake.
+default['policy_routing'] = {
+  'addresses' => ['192.168.1.201'],
+  'gateway' => '192.168.1.1',
+  'interface' => 'eth1',
 }
