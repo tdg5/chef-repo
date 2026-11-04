@@ -11,6 +11,11 @@
 default['policy_routing']['interface'] = nil
 default['policy_routing']['gateway'] = nil
 
+# The netplan `ethernets` id that configures the interface, when it is not the
+# interface's own name. Vagrant names the id after the NIC (eth1), so nil there;
+# multipass's network-config names a bridged NIC `extra0`.
+default['policy_routing']['netplan_id'] = nil
+
 # The host's own addresses on that NIC. Traffic the host itself sources from
 # them (replies from host sockets) uses the table too.
 default['policy_routing']['addresses'] = []
