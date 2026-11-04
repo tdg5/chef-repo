@@ -51,6 +51,15 @@ end
 package 'nftables'
 
 # A name for the table, so `ip rule` / `ip route show table lan` read clearly.
+# Ubuntu 26.04's iproute2 ships its defaults under /usr/share/iproute2 and no
+# /etc/iproute2 at all, but `ip` still reads /etc/iproute2/rt_tables.d.
+directory '/etc/iproute2/rt_tables.d' do
+  mode '0755'
+  owner 'root'
+  group 'root'
+  recursive true
+end
+
 file '/etc/iproute2/rt_tables.d/policy-routing.conf' do
   content "# Managed by Chef (policy-routing cookbook). Do not edit by hand.\n" \
           "#{table} lan\n"
