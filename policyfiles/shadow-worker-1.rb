@@ -45,12 +45,12 @@ default['root_user'] = {
 # Declarative k3s agent config -- the ONLY source of its flags (see the k3s
 # cookbook's attributes). The server URL + join token stay in the
 # manually-created k3s-agent.service.env. node-ip / flannel-iface pin k3s and
-# flannel to the bridged LAN NIC (enp0s2, 192.168.1.203 by DHCP reservation),
+# flannel to the bridged LAN NIC (enp0s2, 192.168.1.16 by DHCP reservation),
 # not multipass's NAT NIC (enp0s1). The taint keeps everything but jig's
 # Phave workers (and DaemonSets that tolerate it) off the node.
 default['k3s']['config'] = {
   'flannel-iface' => 'enp0s2',
-  'node-ip' => '192.168.1.203',
+  'node-ip' => '192.168.1.16',
   'node-label' => ['jig-worker=phave'],
   'node-taint' => ['jig-worker=phave:NoSchedule'],
 }
@@ -61,7 +61,7 @@ default['k3s']['config'] = {
 # without this, replies to LAN clients leave through multipass's NAT. multipass's
 # network-config names the bridged NIC's netplan id `extra0`, not `enp0s2`.
 default['policy_routing'] = {
-  'addresses' => ['192.168.1.203'],
+  'addresses' => ['192.168.1.16'],
   'gateway' => '192.168.1.1',
   'interface' => 'enp0s2',
   'netplan_id' => 'extra0',
