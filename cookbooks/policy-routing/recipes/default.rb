@@ -28,6 +28,10 @@ iface = node['policy_routing']['interface']
 gateway = node['policy_routing']['gateway']
 raise 'policy-routing: set node[policy_routing][interface] and [gateway]' if iface.nil? || gateway.nil?
 
+# netplan names the unit after its `ethernets` id, which is the NIC's name on
+# the Vagrant VMs but a logical id on multipass VMs (`extra0` for a bridged NIC).
+netplan_id = node['policy_routing']['netplan_id'] || iface
+
 addresses = Array(node['policy_routing']['addresses'])
 table = Integer(node['policy_routing']['table'])
 priority = Integer(node['policy_routing']['priority'])
@@ -36,8 +40,9 @@ throw_destinations = Array(node['policy_routing']['throw_destinations'])
 
 # A drop-in for a unit that doesn't exist silently does nothing, so refuse to
 # converge unless netplan generated the unit we extend (it does so for any
-# netplan `ethernets` id; Vagrant's 50-vagrant.yaml names the id after the NIC).
-netplan_network = "10-netplan-#{iface}.network"
+# netplan `ethernets` id; Vagrant's 50-vagrant.yaml names the id after the NIC,
+# multipass's network-config does not).
+netplan_network = "10-netplan-#{netplan_id}.network"
 unless ::File.exist?("/run/systemd/network/#{netplan_network}")
   raise "policy-routing: /run/systemd/network/#{netplan_network} not found; " \
         "is #{iface} configured by netplan with the networkd renderer?"
