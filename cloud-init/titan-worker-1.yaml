@@ -23,7 +23,7 @@
 #   multipass launch --name titan-worker-1 --cpus 18 --memory 62G --disk 300G --network en7 --cloud-init cloud-init/titan-worker-1.yaml 26.04
 #
 # Then:
-#   multipass exec titan-worker-1 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.202
+#   multipass exec titan-worker-1 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.236
 #   sudo ~/src/chef-repo/bin/init-ubuntu.sh
 
 hostname: titan-worker-1
