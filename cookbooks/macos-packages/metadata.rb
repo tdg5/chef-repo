@@ -6,3 +6,5 @@ description       'Install various packages on macos'
 version           '0.0.1'
 
 supports 'mac_os_x'
+
+depends 'brew-cask'

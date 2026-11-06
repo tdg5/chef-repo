@@ -1,1 +1,1 @@
-homebrew_cask 'snowflake-snowsql'
+brew_cask 'snowflake-snowsql'

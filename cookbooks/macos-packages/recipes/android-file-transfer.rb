@@ -1,1 +1,1 @@
-homebrew_cask 'android-file-transfer'
+brew_cask 'android-file-transfer'

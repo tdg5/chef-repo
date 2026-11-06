@@ -1,5 +1,5 @@
 if platform?('mac_os_x')
-  homebrew_cask 'docker'
+  brew_cask 'docker'
 else
   docker_service 'default' do
     action [:create, :start]

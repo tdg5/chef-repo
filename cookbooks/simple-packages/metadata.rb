@@ -6,5 +6,6 @@ description 'Installs various simple packages'
 version '0.0.1'
 
 depends 'apt'
+depends 'brew-cask'
 
 %w( debian mac_os_x ubuntu ).each { |os| supports os }

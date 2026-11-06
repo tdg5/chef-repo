@@ -2,6 +2,7 @@ name 'ubuntu-vm-host'
 
 default_source :supermarket
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 

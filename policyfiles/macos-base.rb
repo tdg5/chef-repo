@@ -2,6 +2,7 @@ name 'macos-base'
 
 default_source :supermarket
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'

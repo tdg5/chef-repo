@@ -1,1 +1,1 @@
-homebrew_cask 'google-chrome'
+brew_cask 'google-chrome'

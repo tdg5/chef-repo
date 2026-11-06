@@ -5,6 +5,7 @@ license 'MIT'
 description 'Installs docker service via the docker cookbook'
 version '0.0.1'
 
+depends 'brew-cask'
 depends 'docker'
 
 supports 'debian'
