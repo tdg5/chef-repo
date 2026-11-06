@@ -23,3 +23,20 @@ if [ ! -f "$ACTUAL_USER_SUDOERS_FILE_PATH" ]; then
   echo "$ACTUAL_USER ALL = (ALL) NOPASSWD: ALL" | tee "$ACTUAL_USER_SUDOERS_FILE_PATH"
   chmod 0440 "$ACTUAL_USER_SUDOERS_FILE_PATH"
 fi
+
+# The homebrew cookbook cannot install Homebrew on a Mac that lacks it (its
+# owner lookup fails before `brew` exists), so install it here. Homebrew's
+# installer refuses to run as root, so it runs as the sudo user, whose
+# passwordless sudo entry above lets it escalate without prompting.
+if [ ! -x /opt/homebrew/bin/brew ] && [ ! -x /usr/local/bin/brew ]; then
+  read -r -p "Homebrew is not installed. Install it now? [y/N] " INSTALL_HOMEBREW < /dev/tty
+  case "$INSTALL_HOMEBREW" in
+    [yY]|[yY][eE][sS])
+      HOMEBREW_INSTALLER="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      sudo -u "$ACTUAL_USER" -H env NONINTERACTIVE=1 /bin/bash -c "$HOMEBREW_INSTALLER"
+      ;;
+    *)
+      echo "Skipping Homebrew; the macOS policies need it before they converge." 1>&2
+      ;;
+  esac
+fi
