@@ -45,26 +45,24 @@ default['root_user'] = {
 # Declarative k3s agent config -- the ONLY source of its flags (see the k3s
 # cookbook's attributes). The server URL + join token stay in the
 # manually-created k3s-agent.service.env. node-ip / flannel-iface pin k3s and
-# flannel to the bridged LAN NIC (enp0s2, 192.168.1.202 by DHCP reservation),
-# not multipass's NAT NIC (enp0s1). enp0s2 / enp0s1 are shadow's names; confirm
-# them, and the reservation, in titan's trial VM (feature 01 T4) before the
-# first converge. The taint keeps everything but jig's
+# flannel to the bridged LAN NIC (enp0s2, 192.168.1.236 by DHCP reservation),
+# not multipass's NAT NIC (enp0s1), the same names as shadow's (titan's trial
+# VM, 2026-11-06). The taint keeps everything but jig's
 # Phave workers (and DaemonSets that tolerate it) off the node.
 default['k3s']['config'] = {
   'flannel-iface' => 'enp0s2',
-  'node-ip' => '192.168.1.202',
+  'node-ip' => '192.168.1.236',
   'node-label' => ['jig-worker=phave'],
   'node-taint' => ['jig-worker=phave:NoSchedule'],
 }
 
 # Answer connections that arrive on the bridged LAN NIC back through it and the
 # router. multipass gives its NAT NIC (enp0s1) the main default route at metric
-# 100 and the bridged NIC's at 200 (seen in shadow's trial VM, 2026-11-03; re-check
-# in titan's), so
+# 100 and the bridged NIC's at 200 (seen in shadow's and titan's trial VMs), so
 # without this, replies to LAN clients leave through multipass's NAT. multipass's
 # network-config names the bridged NIC's netplan id `extra0`, not `enp0s2`.
 default['policy_routing'] = {
-  'addresses' => ['192.168.1.202'],
+  'addresses' => ['192.168.1.236'],
   'gateway' => '192.168.1.1',
   'interface' => 'enp0s2',
   'netplan_id' => 'extra0',
