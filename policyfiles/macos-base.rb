@@ -7,7 +7,7 @@ cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
-cookbook 'homebrew', '~> 5.4.8', :supermarket
+cookbook 'homebrew', '~> 6.0', :supermarket
 cookbook 'macos-packages', path: '../cookbooks/macos-packages'
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
