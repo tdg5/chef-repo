@@ -5,7 +5,5 @@ if platform_family?('debian')
     uri 'https://packagecloud.io/slacktechnologies/slack/debian'
   end
 elsif platform?('mac_os_x')
-  homebrew_cask 'slack' do
-    install_cask false
-  end
+  homebrew_cask 'slack'
 end

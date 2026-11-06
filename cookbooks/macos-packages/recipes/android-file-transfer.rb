@@ -1,3 +1,1 @@
-homebrew_cask 'android-file-transfer' do
-  install_cask false
-end
+homebrew_cask 'android-file-transfer'
