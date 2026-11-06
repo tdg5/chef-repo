@@ -15,10 +15,12 @@
 # no key.
 #
 # Launch, on titan, bridged on its USB Ethernet adapter (en7), the same kind as shadow's. The VM gets
-# all 18 of titan's cores and 84G of memory, the operator's sizing on
-# 2026-11-06: three 26112Mi Phave workers (78336Mi) plus atelet's 384Mi, with
-# about 4Gi to spare for the guest and k3s:
-#   multipass launch --name titan-worker-1 --cpus 18 --memory 84G --disk 300G --network en7 --cloud-init cloud-init/titan-worker-1.yaml 26.04
+# all 18 of titan's cores and 62G of memory, the operator's sizing on
+# 2026-11-06: three 19Gi Phave workers (58368Mi) plus atelet's 384Mi, with
+# about 3Gi to spare for the guest and k3s. 62G is the most multipass 1.16's
+# QEMU launches on titan; larger guests fail with HV_BAD_ARGUMENT, since
+# Hypervisor.framework's default guest address space is 64 GiB:
+#   multipass launch --name titan-worker-1 --cpus 18 --memory 62G --disk 300G --network en7 --cloud-init cloud-init/titan-worker-1.yaml 26.04
 #
 # Then:
 #   multipass exec titan-worker-1 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.202
