@@ -6,6 +6,7 @@ include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-sdk', path: '.'
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 cookbook 'snowflake-snowsql', path: '../cookbooks/snowflake-snowsql'
 

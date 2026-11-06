@@ -4,6 +4,7 @@ default_source :supermarket
 
 include_policy 'ubuntu-base', path: '.'
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'chrome', path: '../cookbooks/chrome'
 cookbook 'config', path: '../cookbooks/config'

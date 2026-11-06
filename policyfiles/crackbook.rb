@@ -2,6 +2,7 @@ name 'crackbook'
 
 default_source :supermarket
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'

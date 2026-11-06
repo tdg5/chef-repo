@@ -1,3 +1,3 @@
 if platform?('mac_os_x')
-  homebrew_cask 'visual-studio-code'
+  brew_cask 'visual-studio-code'
 end

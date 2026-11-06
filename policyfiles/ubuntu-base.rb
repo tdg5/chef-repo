@@ -2,6 +2,7 @@ name 'ubuntu-base'
 
 default_source :supermarket
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'apt', '~> 7.5.17', :supermarket
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'config', path: '../cookbooks/config'

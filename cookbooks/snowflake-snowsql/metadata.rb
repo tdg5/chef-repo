@@ -6,3 +6,5 @@ description       'Install snowflake-snowsql via brew'
 version           '0.0.1'
 
 supports 'mac_os_x'
+
+depends 'brew-cask'

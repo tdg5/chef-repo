@@ -2,6 +2,7 @@ name 'zendesk'
 
 default_source :supermarket
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'bash_config', path: '../cookbooks/bash_config'
 cookbook 'cluster-storage', path: '../cookbooks/cluster-storage'
 cookbook 'config', path: '../cookbooks/config'

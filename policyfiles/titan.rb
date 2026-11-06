@@ -5,6 +5,7 @@ default_source :supermarket
 include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
 
+cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'snowflake-snowsql', path: '../cookbooks/snowflake-snowsql'
 
 run_list(

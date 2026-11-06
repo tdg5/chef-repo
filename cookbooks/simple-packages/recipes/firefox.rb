@@ -1,5 +1,5 @@
 if platform_family?('debian')
   package 'firefox'
 elsif platform?('mac_os_x')
-  homebrew_cask 'firefox'
+  brew_cask 'firefox'
 end
