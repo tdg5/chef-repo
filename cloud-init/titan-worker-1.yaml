@@ -15,9 +15,11 @@
 # no key.
 #
 # Launch, on titan, bridged on its USB Ethernet adapter, the same kind as shadow's. The VM gets
-# all of titan's cores but 2 and 112G of memory (spec P2, D16); the adapter's
-# macOS name (`enX`) is read in feature 01's trial VM:
-#   multipass launch --name titan-worker-1 --cpus <titan's cores - 2> --memory 112G --disk 300G --network <adapter> --cloud-init cloud-init/titan-worker-1.yaml 26.04
+# all 18 of titan's cores and 84G of memory, the operator's sizing on
+# 2026-11-06: three 26112Mi Phave workers (78336Mi) plus atelet's 384Mi, with
+# about 4Gi to spare for the guest and k3s. The adapter's macOS name (`enX`)
+# is read in feature 01's trial VM:
+#   multipass launch --name titan-worker-1 --cpus 18 --memory 84G --disk 300G --network <adapter> --cloud-init cloud-init/titan-worker-1.yaml 26.04
 #
 # Then:
 #   multipass exec titan-worker-1 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.202
