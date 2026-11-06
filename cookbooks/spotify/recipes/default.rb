@@ -7,7 +7,5 @@ if platform_family?('debian')
   end
   package 'spotify-client'
 elsif platform?('mac_os_x')
-  homebrew_cask 'spotify' do
-    install_cask false
-  end
+  homebrew_cask 'spotify'
 end

@@ -1,7 +1,5 @@
 if platform?('mac_os_x')
-  homebrew_cask 'vlc' do
-    install_cask false
-  end
+  homebrew_cask 'vlc'
 else
   package 'vlc'
 end
