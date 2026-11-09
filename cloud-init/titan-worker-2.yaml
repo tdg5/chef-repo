@@ -1,0 +1,46 @@
+#cloud-config
+#
+# cloud-init config for `titan-worker-2`: the multipass VM on titan (Phave
+# hardware) that is a dedicated, tainted cerberus k3s agent for jig's Phave
+# workers. Design: tdg5/infrastructure plans/phave-jig-worker/ (spec and
+# feature 01). Join procedure: k8s-at-home README, "Joining a multipass node
+# (Phave Macs)".
+#
+# Purpose: bootstrap the `tdg5` user + `tdg5` primary group that the Chef
+# policyfiles assume already exist. Every cookbook consumes node['user']
+# (home /home/tdg5, group tdg5) but none of them CREATE the user, and
+# bin/init-ubuntu.sh keys off $SUDO_USER -- so tdg5 must exist before Chef
+# runs. This file stands that user up with passwordless sudo and an SSH key
+# for beastie (the admin machine); on titan itself, `multipass exec` needs
+# no key.
+#
+# Launch, on titan, bridged on its USB Ethernet adapter (en7), beside
+# titan-worker-1, the operator's sizing on 2026-11-06: 18 cores, 32G of
+# memory and 150G of disk, for one 29Gi Phave worker (29696Mi) plus
+# atelet's 384Mi, with about 1.3Gi to spare for the guest and k3s. The two
+# VMs share titan's 18 cores:
+#   multipass launch --name titan-worker-2 --cpus 18 --memory 32G --disk 150G --network en7 --cloud-init cloud-init/titan-worker-2.yaml 26.04
+#
+# Then:
+#   multipass exec titan-worker-2 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.93
+#   sudo ~/src/chef-repo/bin/init-ubuntu.sh
+
+hostname: titan-worker-2
+
+users:
+  # keep cloud-init's platform default user handling, then add tdg5
+  - default
+  - name: tdg5
+    gecos: Danny Guinther
+    primary_group: tdg5         # creates the `tdg5` group (matches titan-worker-2.rb: group = username)
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: "ALL=(ALL) NOPASSWD:ALL"   # mirrors the sudoers.d entry bin/init-ubuntu.sh writes
+    lock_passwd: true                # SSH-key login only; no password
+    ssh_authorized_keys:
+      - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIClkO02+h969BqhRq0aQJNC20FU/e+Tet0UClwRFpHyT dannyguinther@gmail.com
+
+# Refresh apt metadata so the first `apt-get install` in bin/init-ubuntu.sh
+# (build-essential, curl, git) resolves cleanly. init-ubuntu.sh installs the
+# rest, so we deliberately keep this minimal to avoid duplicating it.
+package_update: true
