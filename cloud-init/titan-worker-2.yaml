@@ -17,11 +17,12 @@
 # Launch, on titan, bridged on its USB Ethernet adapter (en7), beside
 # titan-worker-1, the operator's sizing on 2026-11-06: 18 cores, 32G of
 # memory and 150G of disk, for one 29Gi Phave worker (29696Mi) plus
-# atelet's 384Mi, with about 1.3Gi to spare for the guest and k3s:
+# atelet's 384Mi, with about 1.3Gi to spare for the guest and k3s. The two
+# VMs share titan's 18 cores:
 #   multipass launch --name titan-worker-2 --cpus 18 --memory 32G --disk 150G --network en7 --cloud-init cloud-init/titan-worker-2.yaml 26.04
 #
 # Then:
-#   multipass exec titan-worker-2 -- sudo -iu tdg5    # or ssh tdg5@<its en7 address>
+#   multipass exec titan-worker-2 -- sudo -iu tdg5    # or ssh tdg5@192.168.1.93
 #   sudo ~/src/chef-repo/bin/init-ubuntu.sh
 
 hostname: titan-worker-2
