@@ -46,3 +46,10 @@
   signingKey = <%= node['user']['home_directory'] %>/.ssh/id_ed25519
 [web]
   browser = google-chrome
+[diff]
+	tool = vimdiff
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
