@@ -1,0 +1,11 @@
+[Unit]
+Description=Force chrony to re-measure NTP sources (M1 host-sleep drift guard)
+After=chrony.service network-online.target
+Requires=chrony.service
+
+[Service]
+Type=oneshot
+# Force a few immediate measurements from the configured sources. Any offset
+# over 1 second is then stepped away by "makestep 1 -1" in
+# /etc/chrony/conf.d/10-vm-clock.conf; smaller offsets are slewed as usual.
+ExecStart=/usr/bin/chronyc burst 3/4

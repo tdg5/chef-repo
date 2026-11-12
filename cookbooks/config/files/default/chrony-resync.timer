@@ -1,0 +1,14 @@
+[Unit]
+Description=Periodically re-check clock sync (M1 host-sleep drift guard)
+
+[Timer]
+# First check shortly after boot, then every 5 minutes. Because the timer runs
+# on the monotonic clock (which also freezes while the host sleeps), it is
+# "overdue" the instant the VM resumes and fires almost immediately -> a
+# sleep-induced jump is caught within minutes, not the ~17 min NTP poll gap.
+OnBootSec=2min
+OnUnitActiveSec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
