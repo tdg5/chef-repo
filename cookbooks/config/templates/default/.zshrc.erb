@@ -4,6 +4,10 @@ if [ -d "/opt/homebrew/bin" ]; then
   export PATH="/opt/homebrew/bin:$PATH"
 fi
 
+if [ -d "$HOME/go/bin" ]; then
+  export PATH="$HOME/go/bin:$PATH"
+fi
+
 [ -f "$HOME/.bash_aliases" ] && source "$HOME/.bash_aliases"
 
 <%
@@ -22,16 +26,6 @@ fi
 
 if [ -f "$HOME/.shell/extra_sources" ]; then
   source "$HOME/.shell/extra_sources"
-fi
-
-RUBY_PATH="/opt/homebrew/opt/ruby/bin"
-if [ -d "$RUBY_PATH" ]; then
-  RUBY_VERSION="$($RUBY_PATH/ruby --version | grep --only-matching -E 'ruby [^ ]+' | sed 's/.* //g')"
-  GEM_PATH="/opt/homebrew/lib/ruby/gems/$RUBY_VERSION/bin"
-  if [ -d "$GEM_PATH" ]; then
-    PATH="$RUBY_PATH:$GEM_PATH:$PATH"
-  fi
-  PATH="$RUBY_PATH:$GEM_PATH:$PATH"
 fi
 
 # The max size of the history file.
@@ -54,3 +48,14 @@ setopt HIST_IGNORE_DUPS
 
 # Immediately append commands to the history.
 setopt INC_APPEND_HISTORY
+
+# Docker Desktop writes its CLI completions here; add them before enabling
+# completion.
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=("$HOME/.docker/completions" $fpath)
+fi
+
+autoload -Uz compinit
+compinit
+
+export PATH="$HOME/.local/bin:$PATH"
