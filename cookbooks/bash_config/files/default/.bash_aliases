@@ -35,7 +35,7 @@ function decode_jwt() {
   if [ $amountOfPaddingNeeded -eq 1 ]; then input="$input"'='
   elif [ $amountOfPaddingNeeded -eq 2 ]; then input="$input"'=='
   fi
-  echo "$input" | tr '_-' '/+' | openssl enc -d -base64 | jq .
+  echo "$input" | tr '_-' '/+' | base64 -d | jq .
 }
 
 function top_cmds() {
@@ -68,6 +68,18 @@ function gbrd() {
     br2="$1"
   fi
   git rev-list --pretty=short $br1...$br2
+}
+
+function base64_url() {
+  base64 | tr '+/' '-_' | tr -d '='
+}
+
+function base64_url_d() {
+  tr -- '-_' '+/' | base64 -d
+}
+
+function to_lower() {
+  tr '[:upper:]' '[:lower:]'
 }
 
 # Rebase from previous branch
@@ -231,6 +243,7 @@ alias my_ip='dig +short myip.opendns.com @resolver1.opendns.com'
 alias pride="REPORTER=pride guard"
 alias realias='source ~/.bash_aliases'
 alias syslog='tail -f /var/log/syslog'
+alias tmux-clear-status='tmux set-window-option -u window-status-style'
 alias up='[ $(git rev-parse --show-toplevel 2>/dev/null || echo ~) = $(pwd) ] && cd $([ $(echo ~) = $(pwd) ] && echo / || echo) || cd $(git rev-parse --show-toplevel 2>/dev/null)'
 alias www_proxy='ssh -C2qTnN -D 8527'
 
