@@ -9,6 +9,7 @@ include_policy 'dotnet-core', path: '.'
 
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 cookbook 'claude-code', path: '../cookbooks/claude-code'
+cookbook 'earlyoom', path: '../cookbooks/earlyoom'
 cookbook 'github-cli', path: '../cookbooks/github-cli'
 cookbook 'swap', path: '../cookbooks/swap'
 
@@ -16,7 +17,8 @@ run_list(
   'azure-cli',
   'claude-code',
   'github-cli',
-  'swap::zram'
+  'swap::zram',
+  'earlyoom'
 )
 
 username = 'danny'
