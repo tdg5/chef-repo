@@ -6,10 +6,21 @@ include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
 
 cookbook 'brew-cask', path: '../cookbooks/brew-cask'
+cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'snowflake-snowsql', path: '../cookbooks/snowflake-snowsql'
 
 run_list(
-  'snowflake-snowsql'
+  'snowflake-snowsql',
+  'simple-packages::tflint',
+  'simple-packages::postgresql',
+  'simple-packages::libpq',
+  'simple-packages::mailpit',
+  'simple-packages::cmatrix',
+  'simple-packages::telnet',
+  'simple-packages::ghostty',
+  'simple-packages::gcloud-cli',
+  'simple-packages::ngrok',
+  'simple-packages::stats'
 )
 
 username = 'danny'
