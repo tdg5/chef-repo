@@ -4,9 +4,11 @@
 # update` 404s on the Release file. Use the running codename when Microsoft
 # builds for it; otherwise fall back to the newest supported suite (Microsoft's
 # recommended approach for unsupported releases). Override to pin explicitly.
+#
+# Ohai reports no `lsb` on macOS, hence `dig`; the suite only matters on Debian.
 supported_suites = %w(noble jammy focal)
 default['azure-cli']['distribution'] = (
-  if supported_suites.include?(node['lsb']['codename'])
+  if supported_suites.include?(node.dig('lsb', 'codename'))
     node['lsb']['codename']
   else
     'noble'
