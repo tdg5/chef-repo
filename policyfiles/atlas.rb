@@ -17,6 +17,8 @@ run_list(
   'azure-cli',
   'claude-code',
   'github-cli',
+  'simple-packages::postgresql',
+  'simple-packages::libpq',
   'swap::zram',
   'earlyoom'
 )
