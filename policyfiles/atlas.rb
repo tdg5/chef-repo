@@ -6,6 +6,7 @@ include_policy 'ubuntu-base', path: '.'
 include_policy 'multipass-vm', path: '.'
 include_policy 'kubernetes-client', path: '.'
 include_policy 'dotnet-core', path: '.'
+include_policy 'golang', path: '.'
 
 cookbook 'azure-cli', path: '../cookbooks/azure-cli'
 cookbook 'claude-code', path: '../cookbooks/claude-code'
@@ -33,6 +34,9 @@ default['user'] = {
   home_directory: "/home/#{username}",
   username: username,
 }
+
+# ../jig's go.mod requires go 1.27.4
+default['golang']['version'] = '1.27.4'
 
 default['root_user'] = {
   group: 'root',
