@@ -19,6 +19,7 @@ run_list(
   'github-cli',
   'simple-packages::postgresql',
   'simple-packages::libpq',
+  'simple-packages::mailpit',
   'swap::zram',
   'earlyoom'
 )
