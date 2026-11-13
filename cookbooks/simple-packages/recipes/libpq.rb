@@ -2,4 +2,6 @@
 # its bin directory must be added to PATH to use them.
 if platform?('mac_os_x')
   package 'libpq'
+elsif platform?('ubuntu')
+  package 'postgresql-client-18'
 end
