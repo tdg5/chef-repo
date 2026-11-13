@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Usage: update-policies.sh [POLICY_NAME...]
+#
+# With no arguments, updates the lock file of every policy in policyfiles/.
+# With one or more policy names (e.g. "titan"), updates only those policies and
+# the policies they include, directly or transitively, dependencies first.
+
 set -e -o pipefail
 
 # From https://stackoverflow.com/a/4774063
@@ -7,7 +13,39 @@ REPO_DIR="$( cd -- "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
 
 POLICY_FILES_DIR="$REPO_DIR/policyfiles"
 
-REMAINING_POLICY_FILES=$(find "$POLICY_FILES_DIR" -name '*.rb')
+# Prints the names of the policies a policy file includes, one per line
+included_policy_names() {
+  sed -nE "s/^[[:space:]]*include_policy[[:space:]]+['\"]([^'\"]+)['\"].*/\1/p" "$1"
+}
+
+if [ $# -eq 0 ]; then
+  REMAINING_POLICY_FILES=$(find "$POLICY_FILES_DIR" -name '*.rb')
+else
+  # Collect the requested policies plus everything they include
+  PENDING_POLICY_NAMES="$*"
+  SELECTED_POLICY_FILES=""
+  while [ -n "$PENDING_POLICY_NAMES" ]; do
+    set -- $PENDING_POLICY_NAMES
+    POLICY_NAME=$(basename -s .rb "$1")
+    shift
+    PENDING_POLICY_NAMES="$*"
+
+    POLICY_FILE="$POLICY_FILES_DIR/$POLICY_NAME.rb"
+    if echo "$SELECTED_POLICY_FILES" | grep -qxF "$POLICY_FILE"; then
+      continue
+    fi
+    if [ ! -f "$POLICY_FILE" ]; then
+      echo "Unknown policy: $POLICY_NAME (no $POLICY_FILE)" 1>&2
+      exit 1
+    fi
+
+    SELECTED_POLICY_FILES="$SELECTED_POLICY_FILES$POLICY_FILE
+"
+    PENDING_POLICY_NAMES="$PENDING_POLICY_NAMES $(included_policy_names "$POLICY_FILE" | tr '\n' ' ')"
+    PENDING_POLICY_NAMES=$(echo "$PENDING_POLICY_NAMES" | xargs)
+  done
+  REMAINING_POLICY_FILES=$(printf '%s' "$SELECTED_POLICY_FILES")
+fi
 
 POLICY_FILES_COUNT=$(echo "$REMAINING_POLICY_FILES" | wc -l | tr -d ' ')
 
