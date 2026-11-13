@@ -10,6 +10,7 @@ cookbook 'docker-service', path: '../cookbooks/docker-service'
 cookbook 'exuberant-ctags', path: '../cookbooks/exuberant-ctags'
 cookbook 'homebrew', '~> 6.0', :supermarket
 cookbook 'macos-packages', path: '../cookbooks/macos-packages'
+cookbook 'nvm', path: '../cookbooks/nvm'
 cookbook 'python', path: '../cookbooks/python'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
 cookbook 'slack', path: '../cookbooks/slack'
@@ -52,5 +53,5 @@ run_list(
   'chrome',
   'macos-packages::android-file-transfer',
   'simple-packages::firefox',
-  'macos-packages::nvm'
+  'nvm'
 )
