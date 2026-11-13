@@ -4,6 +4,7 @@ default_source :supermarket
 
 include_policy 'macos-base', path: '.'
 include_policy 'kubernetes-client', path: '.'
+include_policy 'golang', path: '.'
 
 cookbook 'brew-cask', path: '../cookbooks/brew-cask'
 cookbook 'simple-packages', path: '../cookbooks/simple-packages'
@@ -32,6 +33,9 @@ default['user'] = {
   home_directory: '/Users/danny',
   username: username,
 }
+
+# ../jig's go.mod requires go 1.27.4
+default['golang']['version'] = '1.27.4'
 
 default['root_user'] = {
   group: 'admin',
