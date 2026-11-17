@@ -83,7 +83,11 @@ cluster_storage_volumes = [
     'label' => 'cluster-ssd',
     'mount_point' => '/srv/cluster-ssd',
     'subdirs' => [
-      { 'path' => 'postgres' },
+      # The shared Postgres PV's root. The CNPG pod's fsGroup 26 makes kubelet
+      # set it to root:26 02775 on every mount, and Postgres (uid 26) needs that
+      # group write to create anything beside pgdata. Match it, so a converge
+      # doesn't reset it to root:root 0755. gid 26 is 'tape' on Ubuntu.
+      { 'path' => 'postgres', 'owner' => 'root', 'group' => 'tape', 'mode' => '02775' },
     ],
   },
   # Bulk HDD #2 (WD WD10EAVS, 1 TB). Node-local dynamic bulk capacity backing the
