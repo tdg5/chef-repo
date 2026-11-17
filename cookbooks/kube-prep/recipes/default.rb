@@ -52,3 +52,19 @@ node['kube_prep']['sysctls'].each_key do |key|
     action :delete
   end
 end
+
+# containerd's default container profile with the stacked-peer signal and
+# ptrace rules containerd PR #14487 adds; see the file's header. Reloading
+# replaces the profile for running containers too.
+cookbook_file '/etc/apparmor.d/cri-containerd.apparmor.d' do
+  source 'cri-containerd.apparmor.d'
+  mode '0644'
+  owner 'root'
+  group 'root'
+  notifies :run, 'execute[load cri-containerd apparmor profile]', :immediately
+end
+
+execute 'load cri-containerd apparmor profile' do
+  command 'apparmor_parser -Kr /etc/apparmor.d/cri-containerd.apparmor.d'
+  action :nothing
+end
